@@ -47,8 +47,8 @@ public class PaperService {
             nodes.add(map6("id", i, "title",row.get("paper"),"label", "paper", "cluster", "1", "value", 2, "group", "paper"));
             target = i++;
             for (Object name : (Collection) row.get("cast")) {
-                Map<String, Object> author = map5("title", 
-                		name,"label", "author", "cluster", "2", "value", 1, "group", "author");
+                Map<String, Object> author = map5("title",
+                        name, "label", "author", "cluster", "2", "value", 1, "group", "author");
                 int source = 0;
                 for (int j = 0; j < nodes.size(); j++) {
                 	if (nodes.get(j).get("title").equals(name)) {
@@ -116,6 +116,11 @@ public class PaperService {
     
     public Map<String, Object> graphAlc(int limit) {
         Iterator<Map<String, Object>> result = paperRepository.graph(limit).iterator();
+        return toAlcFormat(result);
+    }
+
+    public Map<String, Object> q5(String name) {
+        Iterator<Map<String, Object>> result = paperRepository.q5(name, 100).iterator();
         return toAlcFormat(result);
     }
 }

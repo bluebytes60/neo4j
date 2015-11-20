@@ -1,113 +1,177 @@
 <!doctype html>
 <html>
 <head>
-  <title>Network | Sizing</title>
+    <style type="text/css">
+        html, body {
+            font: 10pt arial;
+        }
+        #mynetwork {
+            width: 600px;
+            height: 600px;
+            border: 1px solid lightgray;
+        }
+    </style>
 
-  <style type="text/css">
-    html, body {
-      font: 10pt arial;
-    }
-    #mynetwork {
-      width: 600px;
-      height: 600px;
-      border: 1px solid lightgray;
-    }
-  </style>
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
 
-  <script type="text/javascript" src="javascript/vis.js"></script>
-  <script type="text/javascript" src="javascript/jquery-2.1.4.js"></script>
-  <link href="css/vis.css" rel="stylesheet" type="text/css" />
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
 
-  <script type="text/javascript">
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="css/animate.min.css" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/creative.css" type="text/css">
+    <style type="text/css">
+        html, body {
+            font: 10pt arial;
+        }
+
+        #mynetwork {
+            width: 600px;
+            height: 600px;
+            border: 1px solid lightgray;
+        }
+    </style>
+
+</head>
+
+<script type="text/javascript" src="javascript/vis.js"></script>
+<script type="text/javascript" src="javascript/jquery-2.1.4.js"></script>
+<link href="css/vis.css" rel="stylesheet" type="text/css"/>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 text-center">
+            <div class="collaborationNetwork">
+                <h1>Collaboration Network</h1>
+
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">Author Name</span>
+                    <input type="text" class="form-control" id="authorName" placeholder="ex: Victor Khomenko"
+                           aria-describedby="sizing-addon1">
+                </div>
+                <br>
+                <button href="" id="authorSearch" type="button" class="btn btn-primary btn-xl page-scroll">Search
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<body>
+<div class="container">
+    <div class="col-lg-8 col-lg-offset-2 text-center">
+
+        <p>
+            Collaboration network of the input author
+        </p>
+
+        <div id="mynetwork"></div>
+        <div id="graphText">
+            <div class="row">
+                <div class="col-lg-6" id="testGraph">
+                </div>
+                <div class="col-lg-6" id="testText">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="javascript/vis.js"></script>
+<script type="text/javascript" src="javascript/jquery-2.1.4.js"></script>
+<link href="css/vis.css" rel="stylesheet" type="text/css" />
+<link href="css/vis.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">
     var nodes = null;
     var edges = null;
     var network = null;
 
-    function draw() {
-      var test = null;
-      $.ajax({
-	  	  url: "graphTest",
-	  	  type: "GET",
-	  	  contentType: "applcation/json"
-	  	}).done(function(data) {
-	        var data = JSON.parse(data);
-	        var container = document.getElementById('mynetwork');
-	        var options = {
-	          stabilize:false,
-	          edges: {
-	            color: {
-	              color: "gray",
-	              highlight: "gray",
-	            },
-	          },
-	          nodes: {
-	            shape: 'dot',
-	            radiusMin: 10,
-	            radiusMax: 30,
-	          },
-	          groups: {
-	            user: {
-	              color:"#F2545A",
-	              shape:"star",
-	            },
-	            feature: {
-	              shape:"triangle",
-	              color:"#EC8F93",
-	            },
-	            service: {
-	              color:"#EF777C",
-	              shape:"dot",
-	            }
-	          },
-	          tooltip: {
-	            delay: 300,
-	            fontColor: "black",
-	            fontSize: 14, // px
-	            fontFace: "verdana",
-	            color: {
-	              border: "#666",
-	              background: "#FFFFC6"
-	            }
-	          }
-	        };
+    $(document).ready(function () {
+        $("#authorSearch").click(function () {
+            var authorName = getSearchInput();
+            $.ajax({
+                url: '/q5/' + authorName,
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    draw(JSON.stringify(data));
+                }
+            });
+        });
 
-	        var network = new vis.Network(container, data, options);
-	        network.focusOnNode(19);
-	        network.on('select', function(properties) {
-	          var select_node = $.grep(data.nodes, function(e){
-	            return e["id"] == properties.nodes[0];
-	          })[0];
-	          if(select_node["group"] == "service"){
-	            var select_edges = $.grep(data.edges, function(e) { 
-	              return e["from"] == select_node["id"] });
-	            var textVal = "";
-	            textVal += "<h3>"+select_node["label"]+"</h3>";
-	            textVal += "<div><h4>Keywords:</h4><h4>"
-	            for (var i = select_edges.length - 1; i >= 0; i--) {
-	              textVal += "<span class=\"label label-primary\">"+select_edges[i]["to"]+"</span>\n";
-	            };
-	            textVal += "</h4></div>";
-	            textVal += "<div><img src=\""+select_node["image"]+"\" class=\"img-responsive\"></div>";
-	            $("#testText").html(textVal);
-	          }
-	        });
-	  	});
+    });
+
+    function getSearchInput() {
+        var author = $('#authorName').val();
+        return author;
     }
-  </script>
-  <script src="javascript/googleAnalytics.js"></script>
-</head>
-<body onload="draw()">
-<p>
-  Simple Knowledge Graph
-</p>
-  <div id="mynetwork"></div>
-  <div id="graphText">
-    <div class="row">
-      <div class="col-lg-6" id="testGraph">
-      </div>
-      <div class="col-lg-6" id="testText">
-      </div>
-    </div>
-  </div>
+
+    function draw(data) {
+
+        var data = JSON.parse(data);
+        var container = document.getElementById('mynetwork');
+        var options = {
+            edges: {
+                color: {
+                    color: "gray",
+                    highlight: "gray",
+                },
+            },
+            nodes: {
+                shape: 'dot'
+            },
+            groups: {
+                user: {
+                    color: "#F2545A",
+                    shape: "star",
+                },
+                feature: {
+                    shape: "triangle",
+                    color: "#EC8F93",
+                },
+                service: {
+                    color: "#EF777C",
+                    shape: "dot",
+                }
+            },
+        };
+
+        var network = new vis.Network(container, data, options);
+        network.on('select', function (properties) {
+            var select_node = $.grep(data.nodes, function (e) {
+                return e["id"] == properties.nodes[0];
+            })[0];
+            if (select_node["group"] == "service") {
+                var select_edges = $.grep(data.edges, function (e) {
+                    return e["from"] == select_node["id"]
+                });
+                var textVal = "";
+                textVal += "<h3>" + select_node["label"] + "</h3>";
+                textVal += "<div><h4>Keywords:</h4><h4>"
+                for (var i = select_edges.length - 1; i >= 0; i--) {
+                    textVal += "<span class=\"label label-primary\">" + select_edges[i]["to"] + "</span>\n";
+                }
+                ;
+                textVal += "</h4></div>";
+                textVal += "<div><img src=\"" + select_node["image"] + "\" class=\"img-responsive\"></div>";
+                $("#testText").html(textVal);
+            }
+        });
+    }
+</Script>
+<script src="javascript/googleAnalytics.js"></script>
+<script src="./js/jquery.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/jquery.easing.min.js"></script>
+<script src="./js/jquery.fittext.js"></script>
+<script src="./js/wow.min.js"></script>
+<script src="./js/creative.js"></script>
 </body>
 </html>

@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.io.IOException;
@@ -79,6 +77,20 @@ public class KnowledgeGraph extends WebMvcConfigurerAdapter {
     public Paper getPaper(String title) {
     	//return movieRepository.findByTitleContaining(title);
     	return paperRepository.findByTitle(title);
+    }
+
+    @RequestMapping(value="/q5/{name}", method=RequestMethod.GET)
+    public String q5(@PathVariable String name) {
+        Map<String, Object> map = paperService.q5(name);
+        String json = "";
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            //convert map to JSON string
+            json = mapper.writeValueAsString(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return json;
     }
 
 }
