@@ -1,10 +1,14 @@
 package neo4j.services;
 
+import neo4j.json.Graph;
+import neo4j.json.Node;
+import neo4j.json.Relationship;
 import neo4j.repositories.PaperRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import util.Rest;
 
 import java.util.*;
 
@@ -15,27 +19,11 @@ public class PaperService {
     @Autowired
     PaperRepository paperRepository;
 
-    private Map<String, Object> toD3Format(Iterator<Map<String, Object>> result) {
-        List<Map<String, Object>> nodes = new ArrayList<Map<String, Object>>();
-        List<Map<String, Object>> rels = new ArrayList<Map<String, Object>>();
-        int i = 0;
-        int target = 0;
-        while (result.hasNext()) {
-            Map<String, Object> row = result.next();
-            nodes.add(map("name", row.get("paper"), "label", "paper"));
-            i++;
-            target = i;
-            for (Object name : (Collection) row.get("cast")) {
-                Map<String, Object> author = map("name", name, "label", "author");
-                int source = nodes.indexOf(author);
-                if (source == -1) {
-                    nodes.add(author);
-                    source = i++;
-                }
-                rels.add(map("source", source, "target", target));
-            }
-        }
-        return map("nodes", nodes, "links", rels);
+    Rest rest = new Rest("http://localhost:7474", "bmVvNGo6MTg2NTY=");
+
+    public Map<String, Object> graphAlc(int limit) {
+        Iterator<Map<String, Object>> result = paperRepository.graph(limit).iterator();
+        return toAlcFormat(result);
     }
 
     private Map<String, Object> toAlcFormat(Iterator<Map<String, Object>> result) {
@@ -69,40 +57,35 @@ public class PaperService {
         return map("nodes", nodes, "edges", rels);
     }
 
-    private Map<String, Object> toQ5Format(Iterator<Map<String, Object>> result, String inputAuthor) {
-        List<Map<String, Object>> nodes = new ArrayList<Map<String, Object>>();
-        List<Map<String, Object>> rels = new ArrayList<Map<String, Object>>();
-        int i = 2;
-        int target = 0;
+    public Map<String, Object> q5(String name) {
+        String query = String.format("MATCH p = shortestPath((bacon:Author {name:\\\"%s\\\"})-[*1..2]-(another:Author)) RETURN p ", name);
+        return toMap(name, query);
+    }
 
-        Map<String, Object> central = map5("title", inputAuthor, "label", inputAuthor, "cluster", "2", "value", 1, "group", "author");
-        central.put("id",1);
-        central.put("color", "red");
-        nodes.add(central);
+    public Map<String, Object> q22(String name) {
+        String query = String.format("MATCH p = shortestPath((bacon:Author {name:\\\"%s\\\"})-[*1..6]-(another:Author)) RETURN p limit 1", name);
+        return toMap(name, query);
+    }
 
-        while (result.hasNext()) {
-            Map<String, Object> row = result.next();
-            nodes.add(map6("id", i, "title", row.get("paper"), "label", row.get("paper"), "cluster", "1", "value", 2, "group", "paper"));
-            target = i++;
-            for (Object name : (Collection) row.get("cast")) {
-                Map<String, Object> author = map5("title", name, "label", name, "cluster", "2", "value", 1, "group", "author");
-                int source = 0;
-                for (int j = 0; j < nodes.size(); j++) {
-                    if (nodes.get(j).get("title").equals(name)) {
-                        source = (int) nodes.get(j).get("id");
-                        break;
-                    }
-                }
-                if (source == 0) {
-                    author.put("id", i);
-                    source = i;
-                    i++;
-                    nodes.add(author);
-                }
-                rels.add(map3("from", 1, "to", target, "title", "PUBLISH"));
-                rels.add(map3("from", source, "to", target, "title", "PUBLISH"));
-            }
+
+    public Map<String, Object> toMap(String centralAuthor, String query) {
+        Graph g = rest.query(query);
+        List<Map<String, Object>> nodes = new ArrayList<>();
+        List<Map<String, Object>> rels = new ArrayList<>();
+
+        for (Node node : g.getNodes()) {
+            if (node.getLabels().get(0).equals("Paper"))
+                nodes.add(map5("id", node.getId(), "label", node.getProperties().getTitle(), "cluster", "1", "value", 2, "group", "paper"));
+            else if (node.getProperties().getName().equals(centralAuthor))
+                nodes.add(map6("id", node.getId(), "label", node.getProperties().getName(), "cluster", "2", "value", 1, "group", "author", "color", "red"));
+            else
+                nodes.add(map5("id", node.getId(), "label", node.getProperties().getName(), "cluster", "2", "value", 1, "group", "author"));
         }
+
+        for (Relationship relationship : g.getRelationships()) {
+            rels.add(map3("from", relationship.getStartNode(), "to", relationship.getEndNode(), "title", "PUBLISH"));
+        }
+
         return map("nodes", nodes, "edges", rels);
     }
 
@@ -144,21 +127,6 @@ public class PaperService {
         result.put(key5, value5);
         result.put(key6, value6);
         return result;
-    }
-
-    public Map<String, Object> graph(int limit) {
-        Iterator<Map<String, Object>> result = paperRepository.graph(limit).iterator();
-        return toD3Format(result);
-    }
-
-    public Map<String, Object> graphAlc(int limit) {
-        Iterator<Map<String, Object>> result = paperRepository.graph(limit).iterator();
-        return toAlcFormat(result);
-    }
-
-    public Map<String, Object> q5(String name) {
-        Iterator<Map<String, Object>> result = paperRepository.q5(name, 100).iterator();
-        return toQ5Format(result, name);
     }
 }
 

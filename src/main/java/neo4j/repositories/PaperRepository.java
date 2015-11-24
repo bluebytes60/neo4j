@@ -24,7 +24,8 @@ public interface PaperRepository extends GraphRepository<Paper> {
     @Query("MATCH (a)-[:PUBLISH]->(m)<-[:PUBLISH]-(d) where a.name = {name} RETURN m.title as paper, collect(d.name) as cast LIMIT {limit}")
     List<Map<String, Object>> q5(@Param("name") String name, @Param("limit") int limit);
 
-
+    @Query("MATCH p = shortestPath((bacon:Author {name:{name}})-[*1..6]-(another:Author)) RETURN p limit {limit}")
+    List<Map<String, Object>> q22(@Param("name") String name, @Param("limit") int limit);
 }
 
 
