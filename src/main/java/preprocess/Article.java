@@ -22,14 +22,14 @@ import java.util.*;
 public class Article {
 
     Set<String> authors = new HashSet<String>();
-    String title;
-    String pages;
-    String year;
-    String volume;
-    String journal;
-    String number;
-    String url;
-    String ee;
+    public String title;
+    public String pages;
+    public String year;
+    public String volume;
+    public String journal;
+    public String number;
+    public String url;
+    public String ee;
 
     public String toString() {
         return String.format("authors:%s, title:%s, years:%s, vol:%s, journal:%s, number:%s, url:%s, ee:%s, pages:%s",

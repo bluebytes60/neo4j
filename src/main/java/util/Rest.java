@@ -21,16 +21,11 @@ import java.util.Set;
  * Created by bluebyte60 on 11/24/15.
  */
 public class Rest {
+    //"http://localhost:7474", "bmVvNGo6MTg2NTY="
+    final static String password = "bmVvNGo6MTg2NTY";
+    final static String url= "http://localhost:7474";
 
-    String password;
-    String url;
-
-    public Rest(String url, String password) {
-        this.url = url;
-        this.password = password;
-    }
-
-    public Graph query(String query) {
+    public static Graph query(String query) {
         JSONData r = new JSONData();
         try {
             HttpResponse<JsonNode> response = Unirest.post(url + "/db/data/transaction/commit")
@@ -71,10 +66,8 @@ public class Rest {
     }
 
     public static void main(String[] args) {
-        Rest rest = new Rest("http://localhost:7474", "bmVvNGo6MTg2NTY=");
         // Graph g = rest.query("MATCH p = shortestPath((bacon:Author {name:\\\"Victor Khomenko\\\"})-[*1..6]-(another:Author)) RETURN p limit 1");
-        Graph g = rest.query("MATCH (a)-[:PUBLISH]->(m)<-[:PUBLISH]-(d) where a.name = \\\"Victor Khomenko\\\" return a,m,d");
-
+        Graph g = Rest.query("MATCH (a)-[:PUBLISH]->(m)<-[:PUBLISH]-(d) where a.name = \\\"Victor Khomenko\\\" return a,m,d");
         List<Node> nodes = g.getNodes();
         for (Node node : nodes) {
             System.out.println(node.getId());

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import neo4j.domain.Author;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -80,9 +81,11 @@ public class Parser {
         return articles;
     }
 
-    public static void main(String[] args) throws Exception {
-        for(Article article:new Parser("/Users/bluebyte60/Documents/school/DataFlow/Project/KG-DBLP/small_dblp.xml").getAricles()) {
-            System.out.println(article);
-        }
-    }
+//    public static void main(String[] args) throws Exception {
+//        System.out.println(Parser.class.getClassLoader().getResource("small_dblp.xml").getPath());
+//        Parser p = new Parser(Parser.class.getClassLoader().getResource("small_dblp.xml").getPath());
+//        for(Article article:p.getAricles()) {
+//            System.out.println(article);
+//        }
+//    }
 }
