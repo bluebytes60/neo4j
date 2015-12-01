@@ -19,6 +19,8 @@ public class PaperService {
 
     @Autowired
     PaperRepository paperRepository;
+    Q5 q5 = new Q5();
+    Q22 q22 = new Q22();
 
     public Map<String, Object> graphAlc(int limit) {
         Iterator<Map<String, Object>> result = paperRepository.graph(limit).iterator();
@@ -58,12 +60,12 @@ public class PaperService {
 
     public Map<String, Object> q5(String name) {
         String query = String.format("MATCH p = shortestPath((bacon:Author {name:\\\"%s\\\"})-[*1..2]-(another:Author)) RETURN p ", name);
-        return new Q5().parse(name, query);
+        return q5.parse(name, query);
     }
 
     public Map<String, Object> q22(String name) {
         String query = String.format("MATCH p = shortestPath((bacon:Author {name:\\\"%s\\\"})-[*1..5]-(another:Author)) RETURN p limit 1", name);
-        return new Q22().parse(name, query);
+        return q22.parse(name, query);
     }
 }
 
