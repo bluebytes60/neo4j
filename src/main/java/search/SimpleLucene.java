@@ -16,7 +16,9 @@ import preprocess.Parser;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class SimpleLucene {
@@ -50,6 +52,7 @@ public class SimpleLucene {
         Document doc = new Document();
         doc.add(new TextField("title", val(article.title), Field.Store.YES));
         doc.add(new TextField("fullText", val(article.toString()), Field.Store.YES));
+        doc.add(new TextField("author", val(article.getAuthor()), Field.Store.YES));
         w.addDocument(doc);
     }
 
@@ -83,6 +86,40 @@ public class SimpleLucene {
         // is no need to access the documents any more.
         reader.close();
         return result;
+    }
+
+    public Map<String, Integer> searchResearcher(String keyword, String field) throws ParseException, IOException {
+        Map<String, Integer> map = new HashMap<>();
+        List<String> result = new ArrayList<>();
+        // 1. get query string according to mode
+        String querystr = getQuery(keyword);
+        // 2. Set field to query
+        Query q;
+        q = new QueryParser(field, analyzer).parse(querystr);
+        // 3. search
+        int hitsPerPage = 100000;
+        IndexReader reader = DirectoryReader.open(index);
+        IndexSearcher searcher = new IndexSearcher(reader);
+        TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage);
+        searcher.search(q, collector);
+        ScoreDoc[] hits = collector.topDocs().scoreDocs;
+        // 4. display results
+        for (ScoreDoc hit : hits) {
+            int docId = hit.doc;
+            Document d = searcher.doc(docId);
+            String[] authors = d.get("author").split(",");
+            for(String a: authors){
+                if(map.containsKey(a)){
+                    map.put(a, map.get(a)+1);
+                }else{
+                    map.put(a, 1);
+                }
+            }
+        }
+        // reader can only be closed when there
+        // is no need to access the documents any more.
+        reader.close();
+        return map;
     }
 
     private String getQuery(String query) {
