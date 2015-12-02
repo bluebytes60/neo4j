@@ -17,15 +17,10 @@ import java.util.*;
 public class Q12 {
     //MATCH (a:Author)-[Publish]-(p:Paper {title: "Describing Semantic Domains with Sprouts."}) RETURN *
 
-    SimpleLucene simpleLucene = new SimpleLucene();
+    SimpleLucene simpleLucene;
 
-    public Q12() {
-        try {
-            simpleLucene.load();
-            simpleLucene.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public Q12(SimpleLucene simpleLucene) {
+       this.simpleLucene=simpleLucene;
     }
 
 

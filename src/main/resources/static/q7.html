@@ -55,7 +55,7 @@
 
             <div class="input-group input-group-lg">
                 <span class="input-group-addon">Keyword</span>
-                <input type="text" class="form-control" id="keyword" placeholder="ex: data"
+                <input type="text" class="form-control" id="keyword" placeholder="ex: program"
                        aria-describedby="sizing-addon1">
             </div>
             <br>
@@ -107,7 +107,7 @@
     $(document).ready(function () {
         $("#search").click(function () {
             $.ajax({
-                url: '/q12/part1/' + getK() + "/" + getKeyword(),
+                url: '/q7/part1/' + getK() + "/" + getKeyword(),
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
@@ -116,7 +116,7 @@
                 }
             });
             $.ajax({
-                url: '/q12/part2/' + getK() + "/" + getKeyword(),
+                url: '/q7/part2/' + getK() + "/" + getKeyword(),
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {

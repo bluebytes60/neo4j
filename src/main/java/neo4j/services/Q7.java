@@ -15,17 +15,12 @@ import java.util.*;
  * Created by bluebyte60 on 12/1/15.
  */
 public class Q7 {
-    //MATCH (a:Author)-[Publish]-(p:Paper {title: "Describing Semantic Domains with Sprouts."}) RETURN *
 
-    SimpleLucene simpleLucene = new SimpleLucene();
 
-    public Q7() {
-        try {
-            simpleLucene.load();
-            simpleLucene.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    SimpleLucene simpleLucene;
+
+    public Q7(SimpleLucene simpleLucene) {
+        this.simpleLucene = simpleLucene;
     }
 
 
@@ -72,32 +67,6 @@ public class Q7 {
             }
         }
 
-        //second step, find shortest path between these papers
-        //MATCH p = shortestPath((a1:Paper { title:"Fair sticker languages." })-[*1..15]-(a2:Paper { title:"On the Generative Power of Regular Pattern Grammars." })) RETURN p
-        for (int i = 0; i < titles.size(); i++) {
-            for (int j = i + 1; j < titles.size(); j++) {
-                query = "MATCH p = shortestPath((a1:Paper { title:\\\"%s\\\" })-[*1..5]-(a2:Paper { title:\\\"%s\\\" })) RETURN p";
-                System.out.println(String.format(query, titles.get(i), titles.get(j)));
-                Graph g = Rest.query(String.format(query, titles.get(i), titles.get(j)));
-                for (Node node : g.getNodes()) {
-                    if (node.getLabels().get(0).equals("Paper")) {
-                        if (!ids.contains(node.getId())) {
-                            nodes.add(MapUtil.map5("id", node.getId(), "label", node.getProperties().getTitle(), "cluster", "1", "value", 2, "group", "paper"));
-                            ids.add(node.getId());
-                        }
-                    } else {
-                        if (!ids.contains(node.getId())) {
-                            nodes.add(MapUtil.map5("id", node.getId(), "label", node.getProperties().getName(), "cluster", "2", "value", 1, "group", "author"));
-                            ids.add(node.getId());
-                        }
-                    }
-                }
-
-                for (Relationship relationship : g.getRelationships()) {
-                    rels.add(MapUtil.map3("from", relationship.getStartNode(), "to", relationship.getEndNode(), "title", "PUBLISH"));
-                }
-            }
-        }
         return MapUtil.map("nodes", nodes, "edges", rels);
     }
 

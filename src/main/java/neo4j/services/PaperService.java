@@ -8,6 +8,7 @@ import neo4j.repositories.PaperRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import search.SimpleLucene;
 import util.MapUtil;
 import util.Rest;
 
@@ -19,9 +20,25 @@ public class PaperService {
 
     @Autowired
     PaperRepository paperRepository;
-    Q5 q5 = new Q5();
-    Q12 q12 = new Q12();
-    Q22 q22 = new Q22();
+    Q5 q5;
+    Q7 q7;
+    Q12 q12;
+    Q22 q22;
+    SimpleLucene simpleLucene;
+
+    public PaperService() {
+        simpleLucene = new SimpleLucene();
+        try {
+            simpleLucene.load();
+            simpleLucene.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        q5 = new Q5();
+        q7 = new Q7(simpleLucene);
+        q12 = new Q12(simpleLucene);
+        q22 = new Q22();
+    }
 
     public Map<String, Object> graphAlc(int limit) {
         Iterator<Map<String, Object>> result = paperRepository.graph(limit).iterator();
@@ -61,6 +78,14 @@ public class PaperService {
 
     public Map<String, Object> q5(String name) {
         return q5.parse(name);
+    }
+
+    public List<String> q7Part1(String keyword, int K) {
+        return q7.topK(keyword, K);
+    }
+
+    public Map<String, Object> q7Part2(String keyword, int K) {
+        return q7.parse(keyword, K);
     }
 
     public List<String> q12Part1(String keyword, int K) {
