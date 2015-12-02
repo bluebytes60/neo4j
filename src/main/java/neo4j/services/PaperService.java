@@ -59,13 +59,11 @@ public class PaperService {
     }
 
     public Map<String, Object> q5(String name) {
-        String query = String.format("MATCH p = shortestPath((bacon:Author {name:\\\"%s\\\"})-[*1..2]-(another:Author)) RETURN p ", name);
-        return q5.parse(name, query);
+        return q5.parse(name);
     }
 
     public Map<String, Object> q22(String name) {
-        String query = String.format("MATCH p = shortestPath((bacon:Author {name:\\\"%s\\\"})-[*1..5]-(another:Author)) RETURN p limit 1", name);
-        return q22.parse(name, query);
+        return q22.parse(name);
     }
 }
 

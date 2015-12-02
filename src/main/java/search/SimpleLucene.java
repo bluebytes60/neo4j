@@ -28,9 +28,12 @@ public class SimpleLucene {
     IndexWriterConfig config = new IndexWriterConfig(analyzer);
     IndexWriter w;
 
-    public SimpleLucene() throws IOException {
-        config.setMaxBufferedDocs(2);
-        w = new IndexWriter(index, config);
+    public SimpleLucene() {
+        try {
+            w = new IndexWriter(index, config);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void load() throws Exception {

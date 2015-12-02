@@ -15,7 +15,8 @@ import java.util.Map;
  */
 public class Q5 {
 
-    public Map<String, Object> parse(String centralAuthor, String query){
+    public Map<String, Object> parse(String centralAuthor){
+        String query = String.format("MATCH p = shortestPath((bacon:Author {name:\\\"%s\\\"})-[*1..2]-(another:Author)) RETURN p ", centralAuthor);
         return toMap(centralAuthor, query);
     }
 
