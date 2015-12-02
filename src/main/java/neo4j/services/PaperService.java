@@ -20,6 +20,7 @@ public class PaperService {
     @Autowired
     PaperRepository paperRepository;
     Q5 q5 = new Q5();
+    Q12 q12 = new Q12();
     Q22 q22 = new Q22();
 
     public Map<String, Object> graphAlc(int limit) {
@@ -60,6 +61,14 @@ public class PaperService {
 
     public Map<String, Object> q5(String name) {
         return q5.parse(name);
+    }
+
+    public List<String> q12Part1(String keyword, int K) {
+        return q12.topK(keyword, K);
+    }
+
+    public Map<String, Object> q12Part2(String keyword, int K) {
+        return q12.parse(keyword, K);
     }
 
     public Map<String, Object> q22(String name) {

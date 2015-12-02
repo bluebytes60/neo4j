@@ -31,7 +31,7 @@ public class SimpleLucene {
     public SimpleLucene() {
         try {
             w = new IndexWriter(index, config);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
