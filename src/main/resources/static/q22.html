@@ -51,10 +51,16 @@
         <div class="col-lg-8 col-lg-offset-2 text-center">
             <div class="collaborationNetwork">
                 <h1> a Path that will lead you to connect to the researcher</h1>
-
+                ex:Thomas J. Marlowe to A. Michael Berman
                 <div class="input-group input-group-lg">
-                    <span class="input-group-addon" id="sizing-addon1">Author Name</span>
-                    <input type="text" class="form-control" id="authorName" placeholder="ex: Victor Khomenko"
+                    <span class="input-group-addon" id="sizing-addon1">Author1 Name</span>
+                    <input type="text" class="form-control" id="author1" placeholder="ex: Thomas J. Marlowe"
+                           aria-describedby="sizing-addon1">
+                </div>
+                <br>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">Author2 Name</span>
+                    <input type="text" class="form-control" id="author2" placeholder="ex: A. Michael Berman"
                            aria-describedby="sizing-addon1">
                 </div>
                 <br>
@@ -95,9 +101,8 @@
 
     $(document).ready(function () {
         $("#authorSearch").click(function () {
-            var authorName = getSearchInput();
             $.ajax({
-                url: '/q22/' + authorName,
+                url: '/q22/' + encodeURIComponent(getSearchInput1())+"/" +encodeURIComponent(getSearchInput2())+"/",
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
@@ -108,8 +113,13 @@
 
     });
 
-    function getSearchInput() {
-        var author = $('#authorName').val();
+    function getSearchInput1() {
+        var author = $('#author1').val();
+        return author;
+    }
+
+    function getSearchInput2() {
+        var author = $('#author2').val();
         return author;
     }
 

@@ -97,7 +97,7 @@
         $("#authorSearch").click(function () {
             var authorName = getSearchInput();
             $.ajax({
-                url: '/q5/' + authorName,
+                url: '/q5/' + encodeURIComponent(authorName)+"/",
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {

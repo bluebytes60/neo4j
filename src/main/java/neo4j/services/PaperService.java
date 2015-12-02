@@ -71,8 +71,8 @@ public class PaperService {
         return q12.parse(keyword, K);
     }
 
-    public Map<String, Object> q22(String name) {
-        return q22.parse(name);
+    public Map<String, Object> q22(String name1, String name2) {
+        return q22.parse(name1, name2);
     }
 }
 

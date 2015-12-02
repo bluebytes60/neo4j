@@ -15,12 +15,13 @@ import java.util.Map;
  */
 public class Q22 {
 
-    public Map<String, Object> parse(String centralAuthor){
-        String query = String.format("MATCH p = shortestPath((bacon:Author {name:\\\"%s\\\"})-[*1..5]-(another:Author)) RETURN p limit 1", centralAuthor);
-        return toMap(centralAuthor, query);
+    public Map<String, Object> parse(String name1, String name2) {
+        String query = String.format("MATCH p = shortestPath((a1:Author { name:\\\"%s\\\" })-[*1..6]-(a2:Author { name:\\\"%s\\\" })) RETURN p", name1, name2);
+        System.out.println(query);
+        return toMap(name1, name2, query);
     }
 
-    public java.util.Map<String, Object> toMap(String centralAuthor, String query) {
+    public java.util.Map<String, Object> toMap(String name1, String name2, String query) {
         Graph g = Rest.query(query);
         List<Map<String, Object>> nodes = new ArrayList<>();
         List<java.util.Map<String, Object>> rels = new ArrayList<>();
@@ -28,7 +29,7 @@ public class Q22 {
         for (Node node : g.getNodes()) {
             if (node.getLabels().get(0).equals("Paper"))
                 nodes.add(MapUtil.map5("id", node.getId(), "label", node.getProperties().getTitle(), "cluster", "1", "value", 2, "group", "paper"));
-            else if (node.getProperties().getName().equals(centralAuthor))
+            else if (node.getProperties().getName().equals(name1)||node.getProperties().getName().equals(name2))
                 nodes.add(MapUtil.map6("id", node.getId(), "label", node.getProperties().getName(), "cluster", "2", "value", 1, "group", "author", "color", "red"));
             else
                 nodes.add(MapUtil.map5("id", node.getId(), "label", node.getProperties().getName(), "cluster", "2", "value", 1, "group", "author"));
