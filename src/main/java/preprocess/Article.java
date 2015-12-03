@@ -21,7 +21,7 @@ import java.util.*;
 */
 public class Article {
 
-    Set<String> authors = new HashSet<String>();
+    public Set<String> authors = new HashSet<String>();
     public String title;
     public String pages;
     public String year;
@@ -34,6 +34,14 @@ public class Article {
     public String toString() {
         return String.format("authors:%s, title:%s, years:%s, vol:%s, journal:%s, number:%s, url:%s, ee:%s, pages:%s",
                 authors, title, year, volume, journal, number, url, ee, pages);
+    }
+    public String getAuthor(){
+        StringBuilder sb = new StringBuilder();
+        for(String author: authors){
+            sb.append(author).append(",");
+        }
+        sb.deleteCharAt(sb.length()-1);
+        return sb.toString();
     }
 
 }

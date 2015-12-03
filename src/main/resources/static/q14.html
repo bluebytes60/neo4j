@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+    <style type="text/css">
+        html, body {
+            font: 10pt arial;
+        }
+
+        #mynetwork {
+            width: 600px;
+            height: 600px;
+            border: 1px solid lightgray;
+        }
+    </style>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="css/animate.min.css" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/creative.css" type="text/css">
+    <style type="text/css">
+        html, body {
+            font: 10pt arial;
+        }
+
+        #mynetwork {
+            width: 600px;
+            height: 600px;
+            border: 1px solid lightgray;
+        }
+    </style>
+
+</head>
+
+<script type="text/javascript" src="javascript/vis.js"></script>
+<script type="text/javascript" src="javascript/jquery-2.1.4.js"></script>
+<link href="css/vis.css" rel="stylesheet" type="text/css"/>
+
+
+<div class="container">
+
+    <div class="col-lg-8 col-lg-offset-2 text-center">
+        <div class="collaborationNetwork">
+            <h1>Search for researchers who are experts in the field.</h1>
+
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">Keyword</span>
+                <input type="text" class="form-control" id="keyword" placeholder="ex: program"
+                       aria-describedby="sizing-addon1">
+            </div>
+            <br>
+            <br>
+            <button href="" id="search" type="button" class="btn btn-primary btn-xl page-scroll">Search
+            </button>
+            <table class="table" id="rankTable">
+
+            </table>
+            <br>
+        </div>
+    </div>
+
+</div>
+<body>
+
+
+<script type="text/javascript" src="javascript/vis.js"></script>
+<script type="text/javascript" src="javascript/jquery-2.1.4.js"></script>
+<link href="css/vis.css" rel="stylesheet" type="text/css"/>
+<link href="css/vis.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">
+    var nodes = null;
+    var edges = null;
+    var network = null;
+
+    $(document).ready(function () {
+        $("#search").click(function () {
+            $.ajax({
+                url: '/q14/' + getKeyword(),
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    //draw(JSON.stringify(data));
+                    appendRankedPaperData(JSON.stringify(data))
+                }
+            });
+
+        });
+
+    });
+
+    function getKeyword() {
+        var keyword = $('#keyword').val();
+        return keyword;
+    }
+
+    function appendRankedPaperData(x) {
+        $('#rankTable tr').remove();
+        var table = $('#rankTable')
+        table.append("<tr><th>Researcher</th><th>Number</th></tr>")
+        table.append("<tbody>");
+        var data = $.parseJSON(x);
+        $.each(data, function (k, v) {
+            var row = $("<tr />")
+            table.append(row);
+            row.append("<td>" + k + "</td>");
+            row.append("<td>" + v + "</td>");
+        })
+        table.append("</tbody>");
+        table.show();
+    }
+</Script>
+<script src="javascript/googleAnalytics.js"></script>
+<script src="./js/jquery.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/jquery.easing.min.js"></script>
+<script src="./js/jquery.fittext.js"></script>
+<script src="./js/wow.min.js"></script>
+<script src="./js/creative.js"></script>
+</body>
+</html>
