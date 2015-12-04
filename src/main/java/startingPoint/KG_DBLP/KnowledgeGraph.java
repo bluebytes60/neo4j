@@ -107,6 +107,10 @@ public class KnowledgeGraph extends WebMvcConfigurerAdapter {
     public Map<String, Integer> q14(@PathVariable String keyword) {
         return paperService.q14(keyword);
     }
+    @RequestMapping(value = "/q17/{startyear}/{endyear}", method = RequestMethod.GET)
+    public String q17(@PathVariable int startyear, @PathVariable int endyear) {
+        return paperService.q17(startyear, endyear);
+    }
 
     @RequestMapping(value = "/q22/{name1}/{name2}", method = RequestMethod.GET)
     public Map<String, Object> q22(@PathVariable String name1, @PathVariable String name2) {
