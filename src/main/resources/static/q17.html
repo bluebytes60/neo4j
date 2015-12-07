@@ -46,6 +46,45 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 <script type="text/javascript" src="javascript/jqcloud-1.0.4.js"></script>
 
+<script type="text/javascript">
+
+    var word_array = [
+        {text: "Lorem", weight: 15},
+        {text: "Ipsum", weight: 9, link: "http://jquery.com/"},
+        {text: "Dolor", weight: 6, html: {title: "I can haz any html attribute"}},
+        {text: "Sit", weight: 7},
+        {text: "Amet", weight: 5}
+        // ...as many words as you want
+    ];
+
+    $(document).ready(function () {
+        $("#generate").click(function () {
+            $.ajax({
+                url: '/q17/' + getStart() + "/" + getEnd(),
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+                    var jsonData = JSON.parse(JSON.stringify(data));
+
+                    $("#container8").jQCloud("destroy");
+                    $("#container8").jQCloud(jsonData);
+                }
+            });
+        });
+    });
+
+    function getStart() {
+        var start = $('#startYear').val();
+        return start;
+    }
+
+    function getEnd() {
+        var end = $('#endYear').val();
+        return end;
+    }
+
+</Script>
 
 <div class="container">
 
@@ -86,44 +125,5 @@
 </div>
 
 
-
-<script type="text/javascript">
-
-    var word_array = [
-        {text: "Lorem", weight: 15},
-        {text: "Ipsum", weight: 9, link: "http://jquery.com/"},
-        {text: "Dolor", weight: 6, html: {title: "I can haz any html attribute"}},
-        {text: "Sit", weight: 7},
-        {text: "Amet", weight: 5}
-        // ...as many words as you want
-    ];
-
-    $(document).ready(function () {
-        $("#generate").click(function () {
-            $.ajax({
-                url: '/q17/' + getStart() + "/" + getEnd(),
-                type: 'get',
-                dataType: 'json',
-                success: function (data) {
-                    //alert(JSON.stringify(data));
-                    var jsonData = JSON.parse(JSON.stringify(data));
-                    //$("#container8").jQCloud(jsonData);
-                    $("#container8").jQCloud(word_array);
-                }
-            });
-        });
-    });
-
-    function getStart() {
-        var start = $('#startYear').val();
-        return start;
-    }
-
-    function getEnd() {
-        var end = $('#endYear').val();
-        return end;
-    }
-
-</Script>
 </body>
 </html>

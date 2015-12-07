@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import neo4j.domain.topicEntry;
 import neo4j.json.Graph;
 import neo4j.json.Node;
-import util.MapUtil;
 import util.Rest;
 
 import java.util.*;
@@ -13,11 +12,14 @@ import java.util.*;
  * Created by tongtongbao on 12/2/15.
  */
 public class Q17 {
-    //public List<Map<String, Object>> getKeywords(int startYear, int endYear) {
+    private Set<String>  stopwords;
+
+    public Q17() {
+        this.stopwords = new HashSet<>(Arrays.asList("a", "b", "c"));
+    }
+
      public String getKeywords(int startYear, int endYear) {
-        System.out.println("Q17 GET --> start year: " + startYear + "  end year: " + endYear);
         String query = String.format("MATCH (n:Paper) WHERE (toInt(n.year) <= %d AND toInt (n.year) >= %d) RETURN n", endYear, startYear);
-        System.out.println(query);
 
         // words list and return list
         String wordsAndWeight = new String();
@@ -28,10 +30,15 @@ public class Q17 {
         for (Node node : g.getNodes()) {
 
             String title = node.getProperties().getTitle();
-            System.out.println(title);
             String[] words = title.split("\\s+");
 
             for (String word : words) {
+                word = word.trim();
+                if(word.length() == 1) {
+                    System.out.println(word);
+                    continue;
+                }
+
                 // remove possible punctuations
                 if (word.endsWith(",") || word.endsWith(".") || word.endsWith("?") || word.endsWith("!")) {
                     word = word.substring(0, word.length() - 1);
@@ -45,9 +52,7 @@ public class Q17 {
                 }
             }
         }
-
-        System.out.println(keywordMap);
-
+        //System.out.println(keywordMap);
         // reverse key with value
         TreeMap<Integer, List<String>> reverseMap = new TreeMap<>();
 
@@ -65,8 +70,7 @@ public class Q17 {
                 reverseMap.put(freq, iniList);
             }
         }
-
-        System.out.println(reverseMap.descendingMap());
+         System.out.println(reverseMap);
 
         List<topicEntry> topicEntries = new ArrayList<>();
         int count = 30;
@@ -129,8 +133,6 @@ public class Q17 {
 
         Gson gson = new Gson();
         wordsAndWeight = gson.toJson(topicEntries);
-        System.out.println("\n");
-        System.out.println(wordsAndWeight);
         return wordsAndWeight;
     }
 }
