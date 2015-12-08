@@ -25,6 +25,7 @@ public class PaperService {
     Q7 q7;
     Q12 q12;
     Q14 q14;
+    Q13 q13;
     Q22 q22;
     Q17 q17;
 
@@ -42,6 +43,7 @@ public class PaperService {
         q7 = new Q7(simpleLucene);
         q6 = new Q6();
         q12 = new Q12(simpleLucene);
+        q13 = new Q13(simpleLucene);
         q14 = new Q14(simpleLucene);
         q22 = new Q22();
         q17 = new Q17();
@@ -106,6 +108,10 @@ public class PaperService {
 
     public Map<String, Object> q12Part2(String keyword, int K) {
         return q12.parse(keyword, K);
+    }
+
+    public Map<Integer, String> q13(String keyword) {
+        return q13.getCollaborators(keyword);
     }
 
     public Map<String, Integer> q14(String keyword) {
