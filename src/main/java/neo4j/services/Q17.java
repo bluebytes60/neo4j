@@ -5,8 +5,13 @@ import neo4j.domain.topicEntry;
 import neo4j.json.Graph;
 import neo4j.json.Node;
 import util.Rest;
-
 import java.util.*;
+
+/*
+* Things to do:
+* 1) stop words
+* 2) ctrl + R problem
+* */
 
 /**
  * Created by tongtongbao on 12/2/15.
@@ -22,7 +27,7 @@ public class Q17 {
         String query = String.format("MATCH (n:Paper) WHERE (toInt(n.year) <= %d AND toInt (n.year) >= %d) RETURN n", endYear, startYear);
 
         // words list and return list
-        String wordsAndWeight = new String();
+        String wordsAndWeight;
         HashMap<String, Integer> keywordMap = new HashMap<>();
         Graph g = Rest.query(query);
 
@@ -70,7 +75,7 @@ public class Q17 {
                 reverseMap.put(freq, iniList);
             }
         }
-         System.out.println(reverseMap);
+        System.out.println(reverseMap);
 
         List<topicEntry> topicEntries = new ArrayList<>();
         int count = 30;

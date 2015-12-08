@@ -26,6 +26,7 @@ public class PaperService {
     Q14 q14;
     Q22 q22;
     Q17 q17;
+
     SimpleLucene simpleLucene;
 
     public PaperService() {
@@ -91,6 +92,8 @@ public class PaperService {
     public Map<String, Object> q7Part2(String keyword, int K) {
         return q7.parse(keyword, K);
     }
+
+    public List<Map<String, Object>> q9(String journal, int limit) { return paperRepository.q9(journal, limit);}
 
     public List<String> q12Part1(String keyword, int K) {
         return q12.topK(keyword, K);

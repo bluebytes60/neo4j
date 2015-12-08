@@ -47,6 +47,10 @@
 <script type="text/javascript" src="javascript/jqcloud-1.0.4.js"></script>
 
 <script type="text/javascript">
+    function id(x) {
+        if (typeof x == "string") return document.getElementById(x);
+        return x;
+    }
 
     var word_array = [
         {text: "Lorem", weight: 15},

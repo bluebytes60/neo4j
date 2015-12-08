@@ -93,6 +93,11 @@ public class KnowledgeGraph extends WebMvcConfigurerAdapter {
         return paperService.q7Part2(keyword, k);
     }
 
+    @RequestMapping(value = "/q9/{journal}/{limit}", method = RequestMethod.GET)
+    public List<Map<String, Object>> q9(@PathVariable String journal, @PathVariable int limit) {
+        return paperService.q9(journal, limit);
+    }
+
     @RequestMapping(value = "/q12/part1/{k}/{keyword}", method = RequestMethod.GET)
     public List<String> q12Part1(@PathVariable int k, @PathVariable String keyword) {
         return paperService.q12Part1(keyword, k);
@@ -107,6 +112,7 @@ public class KnowledgeGraph extends WebMvcConfigurerAdapter {
     public Map<String, Integer> q14(@PathVariable String keyword) {
         return paperService.q14(keyword);
     }
+
     @RequestMapping(value = "/q17/{startyear}/{endyear}", method = RequestMethod.GET)
     public String q17(@PathVariable int startyear, @PathVariable int endyear) {
         return paperService.q17(startyear, endyear);
