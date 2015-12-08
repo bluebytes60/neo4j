@@ -5,6 +5,7 @@
         html, body {
             font: 10pt arial;
         }
+
         #mynetwork {
             width: 600px;
             height: 600px;
@@ -47,33 +48,44 @@
 
 
 <div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 text-center">
-            <div class="collaborationNetwork">
-                <h1>Collaboration Network</h1>
-                ex: Victor Khomenko
-                <div class="input-group input-group-lg">
-                    <span class="input-group-addon" id="sizing-addon1">Author Name</span>
-                    <input type="text" class="form-control" id="authorName" placeholder="ex: Victor Khomenko"
-                           aria-describedby="sizing-addon1">
-                </div>
-                <br>
-                <button href="" id="authorSearch" type="button" class="btn btn-primary btn-xl page-scroll">Search
-                </button>
+
+    <div class="col-lg-8 col-lg-offset-2 text-center">
+        <div class="collaborationNetwork">
+            <h1> Generate multi depth network </h1>
+            ex: Raymond R. Devillers AND 4
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">Author</span>
+                <input type="text" class="form-control" id="author" placeholder="ex: Raymond R. Devillers"
+                       aria-describedby="sizing-addon1">
             </div>
+            <br>
+
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">Hop</span>
+                <input type="text" class="form-control" id="hop" placeholder="ex: 4"
+                       aria-describedby="sizing-addon1">
+            </div>
+            <br>
+            <br>
+            <button href="" id="search" type="button" class="btn btn-primary btn-xl page-scroll">Search
+            </button>
+            <table class="table" id="rankTable">
+
+            </table>
+            <br>
         </div>
     </div>
+
 </div>
 <body>
 <div class="container">
     <div class="col-lg-8 col-lg-offset-2 text-center">
-
         <p>
-            Collaboration network of the input author
+            Collaboration network
         </p>
 
-        <div id="mynetwork"></div>
-        <div id="graphText">
+        <div class="col-md-2 col-md-offset-1" id="mynetwork"></div>
+        <div class="col-md-2 col-md-offset-1" id="graphText">
             <div class="row">
                 <div class="col-lg-6" id="testGraph">
                 </div>
@@ -86,7 +98,7 @@
 
 <script type="text/javascript" src="javascript/vis.js"></script>
 <script type="text/javascript" src="javascript/jquery-2.1.4.js"></script>
-<link href="css/vis.css" rel="stylesheet" type="text/css" />
+<link href="css/vis.css" rel="stylesheet" type="text/css"/>
 <link href="css/vis.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">
     var nodes = null;
@@ -94,23 +106,29 @@
     var network = null;
 
     $(document).ready(function () {
-        $("#authorSearch").click(function () {
-            var authorName = getSearchInput();
+        $("#search").click(function () {
+            console.log(getAuthor() + "," + getHop())
             $.ajax({
-                url: '/q5/' + encodeURIComponent(authorName)+"/",
+                url: '/q6/' + getAuthor() + "/" + getHop() + "/",
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    draw(JSON.stringify(data));
+                    console.log(JSON.stringify(data));
+                    draw(JSON.stringify(data))
                 }
             });
         });
 
     });
 
-    function getSearchInput() {
-        var author = $('#authorName').val();
+    function getAuthor() {
+        var author = $('#author').val();
         return author;
+    }
+
+    function getHop() {
+        var hop = $('#hop').val();
+        return hop;
     }
 
     function draw(data) {
@@ -165,6 +183,7 @@
             }
         });
     }
+
 </Script>
 <script src="javascript/googleAnalytics.js"></script>
 <script src="./js/jquery.js"></script>

@@ -21,6 +21,7 @@ public class PaperService {
     @Autowired
     PaperRepository paperRepository;
     Q5 q5;
+    Q6 q6;
     Q7 q7;
     Q12 q12;
     Q14 q14;
@@ -39,6 +40,7 @@ public class PaperService {
         }
         q5 = new Q5();
         q7 = new Q7(simpleLucene);
+        q6 = new Q6();
         q12 = new Q12(simpleLucene);
         q14 = new Q14(simpleLucene);
         q22 = new Q22();
@@ -83,6 +85,9 @@ public class PaperService {
 
     public Map<String, Object> q5(String name) {
         return q5.parse(name);
+    }
+    public Map<String, Object> q6(String name, int hop) {
+        return q6.parse(name, hop);
     }
 
     public List<String> q7Part1(String keyword, int K) {
