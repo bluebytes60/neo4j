@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.io.IOException;
@@ -19,7 +21,7 @@ import neo4j.repositories.*;
 import neo4j.services.DatasetService;
 import neo4j.services.PaperService;
 
-@Configuration
+@SpringBootApplication
 @Import(App.class)
 @RestController("/")
 public class KnowledgeGraph extends WebMvcConfigurerAdapter {
@@ -121,6 +123,14 @@ public class KnowledgeGraph extends WebMvcConfigurerAdapter {
     @RequestMapping(value = "/q22/{name1}/{name2}", method = RequestMethod.GET)
     public Map<String, Object> q22(@PathVariable String name1, @PathVariable String name2) {
         return paperService.q22(name1, name2);
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/home").setViewName("home");
+        registry.addViewController("/").setViewName("home");
+        registry.addViewController("/search").setViewName("search");
+        registry.addViewController("/login").setViewName("login");
     }
 
 }
