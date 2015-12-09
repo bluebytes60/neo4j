@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.io.IOException;
@@ -19,7 +21,7 @@ import neo4j.repositories.*;
 import neo4j.services.DatasetService;
 import neo4j.services.PaperService;
 
-@Configuration
+@SpringBootApplication
 @Import(App.class)
 @RestController("/")
 public class KnowledgeGraph extends WebMvcConfigurerAdapter {
@@ -83,6 +85,11 @@ public class KnowledgeGraph extends WebMvcConfigurerAdapter {
         return paperService.q5(name);
     }
 
+    @RequestMapping(value = "/q6/{name}/{hop}", method = RequestMethod.GET)
+    public Map<String, Object> q6(@PathVariable String name, @PathVariable int hop) {
+        return paperService.q6(name, hop);
+    }
+
     @RequestMapping(value = "/q7/part1/{k}/{keyword}", method = RequestMethod.GET)
     public List<String> q7Part1(@PathVariable int k, @PathVariable String keyword) {
         return paperService.q7Part1(keyword, k);
@@ -91,6 +98,11 @@ public class KnowledgeGraph extends WebMvcConfigurerAdapter {
     @RequestMapping(value = "/q7/part2/{k}/{keyword}", method = RequestMethod.GET)
     public Map<String, Object> q7Part2(@PathVariable int k, @PathVariable String keyword) {
         return paperService.q7Part2(keyword, k);
+    }
+
+    @RequestMapping(value = "/q9/{journal}/{limit}", method = RequestMethod.GET)
+    public List<Map<String, Object>> q9(@PathVariable String journal, @PathVariable int limit) {
+        return paperService.q9(journal, limit);
     }
 
     @RequestMapping(value = "/q12/part1/{k}/{keyword}", method = RequestMethod.GET)
@@ -103,14 +115,41 @@ public class KnowledgeGraph extends WebMvcConfigurerAdapter {
         return paperService.q12Part2(keyword, k);
     }
 
+    @RequestMapping(value = "/q13/{keyword}", method = RequestMethod.GET)
+    public Map<Integer, String> q13(@PathVariable String keyword) {
+        return paperService.q13(keyword);
+    }
+
     @RequestMapping(value = "/q14/{keyword}", method = RequestMethod.GET)
     public Map<String, Integer> q14(@PathVariable String keyword) {
         return paperService.q14(keyword);
     }
 
+    @RequestMapping(value = "/q15/{startyear}/{endyear}", method = RequestMethod.GET)
+    public Map<String, Integer> q15(@PathVariable int startyear, @PathVariable int endyear) {
+        return paperService.q15(startyear, endyear);
+    }
+    @RequestMapping(value = "/q16/{startyear}/{endyear}/{channal}/{keyword}", method = RequestMethod.GET)
+    public Map<String, Integer> q16(@PathVariable int startyear, @PathVariable int endyear, @PathVariable String channal, @PathVariable String keyword) {
+        return paperService.q16(startyear, endyear, channal, keyword);
+    }
+
+    @RequestMapping(value = "/q17/{startyear}/{endyear}", method = RequestMethod.GET)
+    public String q17(@PathVariable int startyear, @PathVariable int endyear) {
+        return paperService.q17(startyear, endyear);
+    }
+
     @RequestMapping(value = "/q22/{name1}/{name2}", method = RequestMethod.GET)
     public Map<String, Object> q22(@PathVariable String name1, @PathVariable String name2) {
         return paperService.q22(name1, name2);
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/home").setViewName("home");
+        registry.addViewController("/").setViewName("home");
+        registry.addViewController("/search").setViewName("search");
+        registry.addViewController("/login").setViewName("login");
     }
 
 }

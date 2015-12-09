@@ -21,10 +21,16 @@ public class PaperService {
     @Autowired
     PaperRepository paperRepository;
     Q5 q5;
+    Q6 q6;
     Q7 q7;
     Q12 q12;
     Q14 q14;
+    Q13 q13;
+    Q15 q15;
+    Q16 q16;
     Q22 q22;
+    Q17 q17;
+
     SimpleLucene simpleLucene;
 
     public PaperService() {
@@ -37,9 +43,14 @@ public class PaperService {
         }
         q5 = new Q5();
         q7 = new Q7(simpleLucene);
+        q6 = new Q6();
         q12 = new Q12(simpleLucene);
+        q13 = new Q13(simpleLucene);
         q14 = new Q14(simpleLucene);
+        q15 = new Q15();
+        q16 = new Q16();
         q22 = new Q22();
+        q17 = new Q17();
     }
 
     public Map<String, Object> graphAlc(int limit) {
@@ -81,6 +92,9 @@ public class PaperService {
     public Map<String, Object> q5(String name) {
         return q5.parse(name);
     }
+    public Map<String, Object> q6(String name, int hop) {
+        return q6.parse(name, hop);
+    }
 
     public List<String> q7Part1(String keyword, int K) {
         return q7.topK(keyword, K);
@@ -90,6 +104,8 @@ public class PaperService {
         return q7.parse(keyword, K);
     }
 
+    public List<Map<String, Object>> q9(String journal, int limit) { return paperRepository.q9(journal, limit);}
+
     public List<String> q12Part1(String keyword, int K) {
         return q12.topK(keyword, K);
     }
@@ -98,8 +114,24 @@ public class PaperService {
         return q12.parse(keyword, K);
     }
 
+    public Map<Integer, String> q13(String keyword) {
+        return q13.getCollaborators(keyword);
+    }
+
     public Map<String, Integer> q14(String keyword) {
         return q14.getExpert(keyword);
+    }
+
+    public Map<String, Integer> q15(int startYear, int endYear) {
+        return q15.getKeywords(startYear, endYear);
+    }
+    public Map<String, Integer> q16(int startYear, int endYear, String channal, String keyword) {
+        //System.out.println(channal);
+        return q16.getKeywords(startYear, endYear, channal, keyword);
+    }
+
+    public String q17(int startYear, int endYear) {
+        return q17.getKeywords(startYear, endYear);
     }
 
     public Map<String, Object> q22(String name1, String name2) {

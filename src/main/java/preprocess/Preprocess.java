@@ -80,7 +80,7 @@ public class Preprocess {
         map.put("volume", article.volume);
         map.put("journal", article.journal);
         map.put("number", article.number);
-        map.put("number", article.number);
+        map.put("year", article.year);
         map.put("ee", article.ee);
         map.put("fullContext", article.toString());
         return map;
@@ -123,13 +123,13 @@ public class Preprocess {
         PUBLISH;
     }
 
-//    public static void main(String[] args) throws Exception {
-//        String xmlPath = "/Users/bluebyte60/Documents/school/DataFlow/Project/KG-DBLP/small_dblp.xml";
-//
-//        String dbPath = "/Users/bluebyte60/Documents/Neo4j/dblp";
-//
-//        Preprocess preprocess = new Preprocess(xmlPath, dbPath);
-//
-//        preprocess.process();
-//    }
+    public static void main(String[] args) throws Exception {
+        String xmlPath = "/Users/bluebyte60/Documents/school/DataFlow/Project/KG-DBLP/small_dblp.xml";
+
+        String dbPath = "/Users/bluebyte60/Documents/Neo4j/dblp";
+
+        Preprocess preprocess = new Preprocess(xmlPath, dbPath);
+
+        preprocess.process();
+    }
 }

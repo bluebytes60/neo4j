@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+<head>
+    <style type="text/css">
+        html, body {
+            font: 10pt arial;
+        }
+
+        #mynetwork {
+            width: 600px;
+            height: 600px;
+            border: 1px solid lightgray;
+        }
+    </style>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="css/animate.min.css" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/creative.css" type="text/css">
+    <style type="text/css">
+        html, body {
+            font: 10pt arial;
+        }
+
+        #mynetwork {
+            width: 600px;
+            height: 600px;
+            border: 1px solid lightgray;
+        }
+    </style>
+
+</head>
+
+<link rel="stylesheet" type="text/css" href="css/jqcloud.css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script type="text/javascript" src="javascript/jqcloud-1.0.4.js"></script>
+
+<script type="text/javascript">
+    function id(x) {
+        if (typeof x == "string") return document.getElementById(x);
+        return x;
+    }
+
+    var word_array = [
+        {text: "Lorem", weight: 15},
+        {text: "Ipsum", weight: 9, link: "http://jquery.com/"},
+        {text: "Dolor", weight: 6, html: {title: "I can haz any html attribute"}},
+        {text: "Sit", weight: 7},
+        {text: "Amet", weight: 5}
+        // ...as many words as you want
+    ];
+
+    $(document).ready(function () {
+        $("#generate").click(function () {
+            $.ajax({
+                url: '/q17/' + getStart() + "/" + getEnd(),
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+                    var jsonData = JSON.parse(JSON.stringify(data));
+
+                    $("#container8").jQCloud("destroy");
+                    $("#container8").jQCloud(jsonData);
+                }
+            });
+        });
+    });
+
+    function getStart() {
+        var start = $('#startYear').val();
+        return start;
+    }
+
+    function getEnd() {
+        var end = $('#endYear').val();
+        return end;
+    }
+
+</Script>
+
+<div class="container">
+
+    <div class="col-lg-8 col-lg-offset-2 text-center">
+        <div class="collaborationNetwork">
+            <h1> topic evolution graph </h1>
+
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">Starting Year</span>
+                <input type="text" class="form-control" id="startYear" placeholder="ex: 2003"
+                       aria-describedby="sizing-addon1">
+            </div>
+            <br>
+
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">Ending Year</span>
+                <input type="text" class="form-control" id="endYear" placeholder="ex: 2005"
+                       aria-describedby="sizing-addon1">
+            </div>
+            <br>
+            <br>
+            <button href="" id="generate" type="button" class="btn btn-primary btn-xl page-scroll">Generate
+            </button>
+            <table class="table" id="rankTable">
+
+            </table>
+            <br>
+        </div>
+    </div>
+
+</div>
+<body>
+<div id="container8" class="container">
+    <div class="col-lg-8 col-lg-offset-2 text-center">
+        <div class="col-md-2 col-md-offset-1" id="mynetwork"></div>
+        <div class="col-md-2 col-md-offset-1" id="graphText"></div>
+    </div>
+</div>
+
+
+</body>
+</html>

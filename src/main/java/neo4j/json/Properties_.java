@@ -25,6 +25,11 @@ public class Properties_ {
     @JsonProperty("title")
     private String title;
 
+    @JsonProperty("journal")
+    private String journal;
+    @JsonProperty("volumn")
+    private String volumn;
+
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -52,7 +57,7 @@ public class Properties_ {
     /**
      *
      * @return
-     *     The name
+     *     The title
      */
     @JsonProperty("title")
     public String getTitle() {
@@ -62,11 +67,47 @@ public class Properties_ {
     /**
      *
      * @param name
-     *     The name
+     *
      */
     @JsonProperty("title")
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    /**
+     *
+     * @param journal
+     * @return
+     */
+    @JsonProperty("journal")
+    public void setJournal(String Journal) { this.journal = journal; }
+
+    /**
+     *
+     * @return
+     *      The journal
+     */
+    @JsonProperty("journal")
+    public String getJournal() {
+        return journal;
+    }
+
+    /**
+     *
+     * @param volumn
+     * @return
+     */
+    @JsonProperty("journal")
+    public void setVolumn(String Volumn) { this.volumn = journal; }
+
+    /**
+     *
+     * @return
+     *      The volumn
+     */
+    @JsonProperty("volumn")
+    public String getVolumn() {
+        return journal;
     }
 
     @JsonAnyGetter
@@ -80,3 +121,22 @@ public class Properties_ {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

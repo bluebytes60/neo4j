@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+<head>
+    <style type="text/css">
+        html, body {
+            font: 10pt arial;
+        }
+        #mynetwork {
+            width: 600px;
+            height: 600px;
+            border: 1px solid lightgray;
+        }
+    </style>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="css/animate.min.css" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/creative.css" type="text/css">
+    <style type="text/css">
+        html, body {
+            font: 10pt arial;
+        }
+
+        #mynetwork {
+            width: 600px;
+            height: 600px;
+            border: 1px solid lightgray;
+        }
+    </style>
+
+</head>
+
+<script type="text/javascript" src="javascript/vis.js"></script>
+<script type="text/javascript" src="javascript/jquery-2.1.4.js"></script>
+<link href="css/vis.css" rel="stylesheet" type="text/css"/>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 text-center">
+            <div class="Classification Authors">
+                <h1> Classification of Authors based on volume number </h1>
+                ex: Acta Inf. and 50
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">Journal</span>
+                    <input type="text" class="form-control" id="journal" placeholder="ex: Acta Inf."
+                           aria-describedby="sizing-addon1">
+                </div>
+                <br>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">Limit</span>
+                    <input type="text" class="form-control" id="limit" placeholder="ex: 50"
+                           aria-describedby="sizing-addon1">
+                </div>
+                <br>
+                <button href="" id="classifyAuthors" type="button" class="btn btn-primary btn-xl page-scroll">Search
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<body>
+
+    <div>
+        <ul id="result"></ul>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="javascript/vis.js"></script>
+<script type="text/javascript" src="javascript/jquery-2.1.4.js"></script>
+<link href="css/vis.css" rel="stylesheet" type="text/css" />
+<link href="css/vis.css" rel="stylesheet" type="text/css"/>
+
+<script type="text/javascript">
+    function id(x) {
+        if (typeof x == "string") return document.getElementById(x);
+        return x;
+    }
+
+    $(document).ready(function () {
+        $("#classifyAuthors").click(function () {
+            id("result").innerHTML = '';
+            $.ajax({
+                url: '/q9/' + encodeURIComponent(getSearchInput1())+"/" +encodeURIComponent(getSearchInput2())+"/",
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+
+                    var jsonData = JSON.parse(JSON.stringify(data));
+                    for(var i = 0; i < jsonData.length; i++) {
+                        var message = '';
+                        var entry = jsonData[i];
+                        message += "Volume " + entry.vol + ":\n";
+
+                        for(var name in entry.names) {
+                            message += entry.names[name] + ", ";
+                        }
+                        message += "\n\n";
+
+                        var li = document.createElement("li");
+                        var textnode = document.createTextNode(message);
+                        li.appendChild(textnode);
+                        document.getElementById("result").appendChild(li);
+                    }
+                }
+            });
+        });
+    });
+
+    function getSearchInput1() {
+        var journal = $('#journal').val();
+        return journal;
+    }
+
+    function getSearchInput2() {
+        var limit = $('#limit').val();
+        return limit;
+    }
+
+</script>
+
+<script src="javascript/googleAnalytics.js"></script>
+<script src="./js/jquery.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/jquery.easing.min.js"></script>
+<script src="./js/jquery.fittext.js"></script>
+<script src="./js/wow.min.js"></script>
+<script src="./js/creative.js"></script>
+</body>
+</html>

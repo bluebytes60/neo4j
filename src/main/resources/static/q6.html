@@ -51,38 +51,23 @@
 
     <div class="col-lg-8 col-lg-offset-2 text-center">
         <div class="collaborationNetwork">
-            <h1>Categorize research papers</h1>
+            <h1> Generate multi depth network </h1>
+            ex: Raymond R. Devillers AND 4
             <div class="input-group input-group-lg">
-                <span class="input-group-addon">Start Year</span>
-                <input type="text" class="form-control" id="startYear" placeholder="ex: 1977"
-                       aria-describedby="sizing-addon1">
-            </div>
-            <br>
-            <div class="input-group input-group-lg">
-                <span class="input-group-addon">End Year</span>
-                <input type="text" class="form-control" id="endYear" placeholder="ex: 1977"
-                       aria-describedby="sizing-addon1">
-            </div>
-            <br>
-            <button href="" id="search1" type="button" class="btn btn-primary btn-xl page-scroll">Search
-            </button>
-            <br>
-            <br>
-            <div class="input-group input-group-lg">
-                <span class="input-group-addon">publication channels</span>
-                <input type="text" class="form-control" id="channel" placeholder="ex: Acta Inf."
-                       aria-describedby="sizing-addon1">
-            </div>
-            <br>
-            <div class="input-group input-group-lg">
-                <span class="input-group-addon">Keyword</span>
-                <input type="text" class="form-control" id="keyword" placeholder="ex: program"
+                <span class="input-group-addon">Author</span>
+                <input type="text" class="form-control" id="author" placeholder="ex: Raymond R. Devillers"
                        aria-describedby="sizing-addon1">
             </div>
             <br>
 
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">Hop</span>
+                <input type="text" class="form-control" id="hop" placeholder="ex: 4"
+                       aria-describedby="sizing-addon1">
+            </div>
             <br>
-            <button href="" id="search2" type="button" class="btn btn-primary btn-xl page-scroll">Search
+            <br>
+            <button href="" id="search" type="button" class="btn btn-primary btn-xl page-scroll">Search
             </button>
             <table class="table" id="rankTable">
 
@@ -93,6 +78,23 @@
 
 </div>
 <body>
+<div class="container">
+    <div class="col-lg-8 col-lg-offset-2 text-center">
+        <p>
+            Collaboration network
+        </p>
+
+        <div class="col-md-2 col-md-offset-1" id="mynetwork"></div>
+        <div class="col-md-2 col-md-offset-1" id="graphText">
+            <div class="row">
+                <div class="col-lg-6" id="testGraph">
+                </div>
+                <div class="col-lg-6" id="testText">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript" src="javascript/vis.js"></script>
 <script type="text/javascript" src="javascript/jquery-2.1.4.js"></script>
@@ -104,50 +106,31 @@
     var network = null;
 
     $(document).ready(function () {
-        $("#search1").click(function () {
+        $("#search").click(function () {
+            console.log(getAuthor() + "," + getHop())
             $.ajax({
-                url: '/q15/' + getStartY() + "/" + getEndY(),
+                url: '/q6/' + getAuthor() + "/" + getHop() + "/",
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    //draw(JSON.stringify(data));
-                    appendRankedPaperData(JSON.stringify(data))
+                    console.log(JSON.stringify(data));
+                    draw(JSON.stringify(data))
                 }
             });
-
-        });
-        $("#search2").click(function () {
-            $.ajax({
-                url: '/q16/' + getStartY() + "/" + getEndY() + "/" + getChannel() + "/" + getKeyword(),
-                type: 'get',
-                dataType: 'json',
-                success: function (data) {
-                    //draw(JSON.stringify(data));
-                    appendRankedPaperData(JSON.stringify(data))
-                }
-            });
-
         });
 
     });
 
-    function getKeyword() {
-        var keyword = $('#keyword').val();
-        return keyword;
+    function getAuthor() {
+        var author = $('#author').val();
+        return author;
     }
 
-    function getStartY() {
-        var SY = $('#startYear').val();
-        return SY;
+    function getHop() {
+        var hop = $('#hop').val();
+        return hop;
     }
-    function getEndY() {
-        var EY = $('#endYear').val();
-        return EY;
-    }
-    function getChannel(){
-        var Channel = $('#channel').val();
-        return Channel;
-    }
+
     function draw(data) {
 
         var data = JSON.parse(data);
@@ -201,20 +184,6 @@
         });
     }
 
-    function appendRankedPaperData(x) {
-        $('#rankTable tr').remove();
-        var table = $('#rankTable')
-        table.append("<tr><th>Title</th></tr>")
-        table.append("<tbody>");
-        var data = $.parseJSON(x);
-        $.each(data, function (k, v) {
-            var row = $("<tr />")
-            table.append(row);
-            row.append("<td>" + k + "</td>");
-        })
-        table.append("</tbody>");
-        table.show();
-    }
 </Script>
 <script src="javascript/googleAnalytics.js"></script>
 <script src="./js/jquery.js"></script>
