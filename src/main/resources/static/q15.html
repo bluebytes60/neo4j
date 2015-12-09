@@ -51,8 +51,29 @@
 
     <div class="col-lg-8 col-lg-offset-2 text-center">
         <div class="collaborationNetwork">
-            <h1> Search Top K Papers</h1>
-
+            <h1>Categorize research papers</h1>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">Start Year</span>
+                <input type="text" class="form-control" id="startYear" placeholder="ex: 30"
+                       aria-describedby="sizing-addon1">
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">End Year</span>
+                <input type="text" class="form-control" id="endYear" placeholder="ex: 30"
+                       aria-describedby="sizing-addon1">
+            </div>
+            <br>
+            <button href="" id="search1" type="button" class="btn btn-primary btn-xl page-scroll">Search
+            </button>
+            <br>
+            <br>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">publication channels</span>
+                <input type="text" class="form-control" id="channel" placeholder="ex: 30"
+                       aria-describedby="sizing-addon1">
+            </div>
+            <br>
             <div class="input-group input-group-lg">
                 <span class="input-group-addon">Keyword</span>
                 <input type="text" class="form-control" id="keyword" placeholder="ex: program"
@@ -60,14 +81,8 @@
             </div>
             <br>
 
-            <div class="input-group input-group-lg">
-                <span class="input-group-addon">K</span>
-                <input type="text" class="form-control" id="K" placeholder="ex: 30"
-                       aria-describedby="sizing-addon1">
-            </div>
             <br>
-            <br>
-            <button href="" id="search" type="button" class="btn btn-primary btn-xl page-scroll">Search
+            <button href="" id="search2" type="button" class="btn btn-primary btn-xl page-scroll">Search
             </button>
             <table class="table" id="rankTable">
 
