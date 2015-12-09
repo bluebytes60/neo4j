@@ -16,6 +16,8 @@ public class Preprocess {
 
     Map<String, Node> authors = new HashMap<>();
 
+    Map<String, List<String>> PublishWith = new HashMap<>();
+
     Map<String, Node> articles = new HashMap<>();
 
     Map<String, List<Article>> wrote = new HashMap<>();
@@ -35,6 +37,17 @@ public class Preprocess {
 
         //store who write what
         for (Article article : transactions) {
+            //store who lead project
+            if (article.authors.size() > 1) {
+                String firstAuthor = article.authors.get(0);
+                for (int i = 1; i < article.authors.size(); i++) {
+                    if (PublishWith.containsKey(firstAuthor)) {
+                        PublishWith.get(firstAuthor).add(article.authors.get(i));
+                    } else {
+                        PublishWith.put(firstAuthor, new ArrayList<>(Arrays.asList(article.authors.get(i))));
+                    }
+                }
+            }
             for (String author : article.authors) {
                 authors.add(author);
                 //store relation
@@ -52,8 +65,15 @@ public class Preprocess {
         for (Map.Entry<String, List<Article>> entry : wrote.entrySet()) {
             String userName = entry.getKey();
             for (Article article : entry.getValue()) {
-                linkTo(this.authors.get(userName), this.articles.get(article.title));
+                linkTo(this.authors.get(userName), this.articles.get(article.title), RelTypes.PUBLISH);
             }
+        }
+
+        for (Map.Entry<String, List<String>> entry : PublishWith.entrySet()) {
+            String firstAuthor = entry.getKey();
+            List<String> coWorkWuthors = entry.getValue();
+            for (String coworker : coWorkWuthors)
+                linkTo(this.authors.get(firstAuthor), this.authors.get(coworker), RelTypes.PUBLISHWITH);
         }
     }
 
@@ -100,9 +120,9 @@ public class Preprocess {
         }
     }
 
-    private void linkTo(Node author, Node article) {
+    private void linkTo(Node author, Node article, RelTypes relTypes) {
         try (Transaction tx = graphDb.beginTx()) {
-            author.createRelationshipTo(article, RelTypes.PUBLISH);
+            author.createRelationshipTo(article, relTypes);
             tx.success();
         }
     }
@@ -120,13 +140,14 @@ public class Preprocess {
     }
 
     private enum RelTypes implements RelationshipType {
-        PUBLISH;
+        PUBLISH,
+        PUBLISHWITH;
     }
 
     public static void main(String[] args) throws Exception {
-        String xmlPath = "/Users/bluebyte60/Documents/school/DataFlow/Project/KG-DBLP/small_dblp.xml";
+        String xmlPath = "/Users/bluebyte60/Documents/school/DataFlow/Project/KG-DBLP/smalldblp.xml";
 
-        String dbPath = "/Users/bluebyte60/Documents/Neo4j/dblp";
+        String dbPath = "/Users/bluebyte60/Documents/Neo4j/dblpLarge";
 
         Preprocess preprocess = new Preprocess(xmlPath, dbPath);
 

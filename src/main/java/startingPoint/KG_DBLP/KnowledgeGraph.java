@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.io.IOException;
@@ -115,11 +114,6 @@ public class KnowledgeGraph extends WebMvcConfigurerAdapter {
         return paperService.q12Part2(keyword, k);
     }
 
-    @RequestMapping(value = "/q13/{keyword}", method = RequestMethod.GET)
-    public Map<Integer, String> q13(@PathVariable String keyword) {
-        return paperService.q13(keyword);
-    }
-
     @RequestMapping(value = "/q14/{keyword}", method = RequestMethod.GET)
     public Map<String, Integer> q14(@PathVariable String keyword) {
         return paperService.q14(keyword);
@@ -130,17 +124,14 @@ public class KnowledgeGraph extends WebMvcConfigurerAdapter {
         return paperService.q17(startyear, endyear);
     }
 
+    @RequestMapping(value = "/q20/{limit}", method = RequestMethod.GET)
+    public Map<String, Object> q20(@RequestParam(value = "limit", required = false) Integer limit) {
+        return paperService.q20(limit == null ? 100 : limit);
+    }
+
     @RequestMapping(value = "/q22/{name1}/{name2}", method = RequestMethod.GET)
     public Map<String, Object> q22(@PathVariable String name1, @PathVariable String name2) {
         return paperService.q22(name1, name2);
-    }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/home").setViewName("home");
-        registry.addViewController("/").setViewName("home");
-        registry.addViewController("/search").setViewName("search");
-        registry.addViewController("/login").setViewName("login");
     }
 
 }

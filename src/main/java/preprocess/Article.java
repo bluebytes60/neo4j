@@ -1,6 +1,7 @@
 package preprocess;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by bluebyte60 on 9/8/15.
@@ -21,7 +22,7 @@ import java.util.*;
 */
 public class Article {
 
-    public Set<String> authors = new HashSet<String>();
+    public List<String> authors = new ArrayList<>();
     public String title;
     public String pages;
     public String year;
@@ -31,17 +32,13 @@ public class Article {
     public String url;
     public String ee;
 
+    public List<String> getAuthors(){
+        return this.authors;
+    }
+
     public String toString() {
         return String.format("authors:%s, title:%s, years:%s, vol:%s, journal:%s, number:%s, url:%s, ee:%s, pages:%s",
                 authors, title, year, volume, journal, number, url, ee, pages);
-    }
-    public String getAuthor(){
-        StringBuilder sb = new StringBuilder();
-        for(String author: authors){
-            sb.append(author).append(",");
-        }
-        sb.deleteCharAt(sb.length()-1);
-        return sb.toString();
     }
 
 }
