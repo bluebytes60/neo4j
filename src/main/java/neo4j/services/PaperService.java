@@ -30,6 +30,7 @@ public class PaperService {
     Q16 q16;
     Q22 q22;
     Q17 q17;
+    Q20 q20;
 
     SimpleLucene simpleLucene;
 
@@ -51,6 +52,7 @@ public class PaperService {
         q16 = new Q16();
         q22 = new Q22();
         q17 = new Q17();
+        q20 = new Q20();
     }
 
     public Map<String, Object> graphAlc(int limit) {
@@ -132,6 +134,10 @@ public class PaperService {
 
     public String q17(int startYear, int endYear) {
         return q17.getKeywords(startYear, endYear);
+    }
+
+    public Map<String, Object> q20(int limit) {
+        return q20.parse(limit);
     }
 
     public Map<String, Object> q22(String name1, String name2) {

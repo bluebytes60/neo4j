@@ -17,7 +17,7 @@ import java.util.*;
 public class Q20 {
 
     public Map<String, Object> parse(int limit){
-        String query = String.format("MATCH (firstAuthor:Author)<-[:PUBLISHWITH]-(coworkers:Author) RETURN *  LIMIT %d", limit);
+        String query = String.format("MATCH (firstAuthor:Author)<-[p:PUBLISHWITH]-(coworkers:Author) RETURN *  LIMIT %d", limit);
         System.out.println(query);
         return toMap(query);
     }

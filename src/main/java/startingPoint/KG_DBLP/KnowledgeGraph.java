@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -123,6 +124,7 @@ public class KnowledgeGraph extends WebMvcConfigurerAdapter {
     public Map<String, Integer> q15(@PathVariable int startyear, @PathVariable int endyear) {
         return paperService.q15(startyear, endyear);
     }
+
     @RequestMapping(value = "/q16/{startyear}/{endyear}/{channal}/{keyword}", method = RequestMethod.GET)
     public Map<String, Integer> q16(@PathVariable int startyear, @PathVariable int endyear, @PathVariable String channal, @PathVariable String keyword) {
         return paperService.q16(startyear, endyear, channal, keyword);
@@ -134,13 +136,21 @@ public class KnowledgeGraph extends WebMvcConfigurerAdapter {
     }
 
     @RequestMapping(value = "/q20/{limit}", method = RequestMethod.GET)
-    public Map<String, Object> q20(@RequestParam(value = "limit", required = false) Integer limit) {
-        return paperService.q20(limit == null ? 100 : limit);
+    public Map<String, Object> q20(@PathVariable Integer limit) {
+        return paperService.q20(limit == null ? 10 : limit);
     }
 
     @RequestMapping(value = "/q22/{name1}/{name2}", method = RequestMethod.GET)
     public Map<String, Object> q22(@PathVariable String name1, @PathVariable String name2) {
         return paperService.q22(name1, name2);
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/home").setViewName("home");
+        registry.addViewController("/").setViewName("home");
+        registry.addViewController("/search").setViewName("search");
+        registry.addViewController("/login").setViewName("login");
     }
 
 }
