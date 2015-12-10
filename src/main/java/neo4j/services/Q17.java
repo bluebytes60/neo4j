@@ -32,7 +32,7 @@ public class Q17 {
             String[] words = title.split(" ");
             for (String word : words) {
                 // remove possible punctuations
-                word=word.replaceAll(",", "").replaceAll("\\.", "").replaceAll("\\?", "").replaceAll("\\!", "");
+                word=word.replaceAll(",", "").replaceAll("\\.", "").replaceAll("\\?", "").replaceAll("\\!", "").replaceAll(":", "");
                 word = word.trim();
                 if (word.length() == 1) {
                     continue;

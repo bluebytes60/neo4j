@@ -49,7 +49,7 @@ public class Q13 {
         Map<Integer, List<String>> newMap = new TreeMap(Collections.reverseOrder());
         newMap.putAll(reversedMap);
 
-        System.out.println(newMap);
+        //System.out.println(newMap);
 
         int count = 9;
         for (Map.Entry<Integer, List<String>> entry : newMap.entrySet()) {

@@ -23,6 +23,7 @@ public class PaperService {
     Q5 q5;
     Q6 q6;
     Q7 q7;
+    Q9 q9;
     Q12 q12;
     Q14 q14;
     Q13 q13;
@@ -45,6 +46,7 @@ public class PaperService {
         q5 = new Q5();
         q7 = new Q7(simpleLucene);
         q6 = new Q6();
+        q9 = new Q9();
         q12 = new Q12(simpleLucene);
         q13 = new Q13(simpleLucene);
         q14 = new Q14(simpleLucene);
@@ -106,7 +108,7 @@ public class PaperService {
         return q7.parse(keyword, K);
     }
 
-    public List<Map<String, Object>> q9(String journal, int limit) { return paperRepository.q9(journal, limit);}
+    public List<Map<String, Object>> q9(String journal, int limit) { return q9.getTreeData(journal, limit, paperRepository);}
 
     public List<String> q12Part1(String keyword, int K) {
         return q12.topK(keyword, K);
