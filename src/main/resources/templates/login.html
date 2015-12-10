@@ -11,13 +11,13 @@
 <div th:if="${param.logout}">
     You have been logged out.
 </div>
-<div style = "margin-left: 40%">
+<div style = "margin-left: 38%">
 <form th:action="@{/login}" method="post">
-    <h2>Please sign in</h2>
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div style="margin-top: 20px"><label> Password: <input type="password" name="password"/> </label></div>
+    <h1 style="margin-left: 20px">Please sign in</h1>
+    <p><input type="text" name="username" placeholder="Username" style="width: 278px"/></p>
+    <p style="margin-top: 20px"><input type="password" name="password" placeholder="Username" style="width: 278px"/></p>
 
-    <div><input type="submit" value="Sign In"/></div>
+    <p style="margin-top: 20px; margin-left: 15%"><input type="submit" value="Sign In"/></p>
 </form>
 </div>
 </body>
