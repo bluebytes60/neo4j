@@ -16,7 +16,8 @@ import java.util.Map;
 public class Q22 {
 
     public Map<String, Object> parse(String name1, String name2) {
-        String query = String.format("MATCH p = shortestPath((a1:Author { name:\\\"%s\\\" })-[*1..6]-(a2:Author { name:\\\"%s\\\" })) RETURN p", name1, name2);
+        String query = String.format("MATCH (p1:Author {name: \\\"%s\\\"}), (p2:Author {name:\\\"%s\\\" }), path = shortestpath((p1)-[:PUBLISH*]-(p2)) RETURN path", name1, name2);
+        //String query = String.format("MATCH p = shortestPath((a1:Author { name:\\\"%s\\\" })-[*1..6]-(a2:Author { name:\\\"%s\\\" })) RETURN p", name1, name2);
         System.out.println(query);
         return toMap(name1, name2, query);
     }
