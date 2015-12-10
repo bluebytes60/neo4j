@@ -5,6 +5,7 @@ import neo4j.domain.topicEntry;
 import neo4j.json.Graph;
 import neo4j.json.Node;
 import util.Rest;
+
 import java.util.*;
 
 /*
@@ -17,7 +18,7 @@ import java.util.*;
  */
 public class Q17 {
 
-     public String getKeywords(int startYear, int endYear) {
+    public String getKeywords(int startYear, int endYear) {
         String query = String.format("MATCH (n:Paper) WHERE (toInt(n.year) <= %d AND toInt (n.year) >= %d) RETURN n", endYear, startYear);
 
         // words list and return list
@@ -27,27 +28,20 @@ public class Q17 {
 
         // process the titles to get keywords list
         for (Node node : g.getNodes()) {
-
             String title = node.getProperties().getTitle();
-            String[] words = title.split("\\s+");
-
+            String[] words = title.split(" ");
             for (String word : words) {
+                // remove possible punctuations
+                word=word.replaceAll(",", "").replaceAll("\\.", "").replaceAll("\\?", "").replaceAll("\\!", "");
                 word = word.trim();
-                if(word.length() == 1) {
-                    //System.out.println(word);
+                if (word.length() == 1) {
                     continue;
                 }
-
-                // remove possible punctuations
-                if (word.endsWith(",") || word.endsWith(".") || word.endsWith("?") || word.endsWith("!")) {
-                    word = word.substring(0, word.length() - 1);
-
-                    // update the hash map
-                    if (keywordMap.containsKey(word)) {
-                        keywordMap.put(word, keywordMap.get(word) + 1);
-                    } else {
-                        keywordMap.put(word, 1);
-                    }
+                // update the hash map
+                if (keywordMap.containsKey(word)) {
+                    keywordMap.put(word, keywordMap.get(word) + 1);
+                } else {
+                    keywordMap.put(word, 1);
                 }
             }
         }
@@ -74,57 +68,57 @@ public class Q17 {
         List<topicEntry> topicEntries = new ArrayList<>();
         int count = 30;
         for (Map.Entry<Integer, List<String>> entry : reverseMap.entrySet()) {
-            if(count < 0) break;
+            if (count < 0) break;
 
             List<String> values = entry.getValue();
 
-            for(String str : values) {
-                if(count > 27) {
+            for (String str : values) {
+                if (count > 27) {
                     topicEntries.add(new topicEntry(str, 10));
                     count--;
                     continue;
                 }
-                if(count > 24) {
+                if (count > 24) {
                     topicEntries.add(new topicEntry(str, 9));
                     count--;
                     continue;
                 }
-                if(count > 21) {
+                if (count > 21) {
                     topicEntries.add(new topicEntry(str, 8));
                     count--;
                     continue;
                 }
-                if(count > 18) {
+                if (count > 18) {
                     topicEntries.add(new topicEntry(str, 6));
                     count--;
                     continue;
                 }
-                if(count > 15) {
+                if (count > 15) {
                     topicEntries.add(new topicEntry(str, 5));
                     count--;
                     continue;
                 }
-                if(count > 12) {
+                if (count > 12) {
                     topicEntries.add(new topicEntry(str, 4));
                     count--;
                     continue;
                 }
-                if(count > 9) {
+                if (count > 9) {
                     topicEntries.add(new topicEntry(str, 3));
                     count--;
                     continue;
                 }
-                if(count > 3) {
+                if (count > 3) {
                     topicEntries.add(new topicEntry(str, 2));
                     count--;
                     continue;
                 }
-                if(count >= 0) {
+                if (count >= 0) {
                     topicEntries.add(new topicEntry(str, 1));
                     count--;
                     continue;
                 }
-                if(count < 0) {
+                if (count < 0) {
                     break;
                 }
             }
