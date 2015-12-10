@@ -89,7 +89,7 @@
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    //draw(JSON.stringify(data));
+                    console.log(JSON.stringify(data));
                     appendRankedPaperData(JSON.stringify(data))
                 }
             });
@@ -109,6 +109,7 @@
         table.append("<tr><th>Researcher</th><th>Number</th></tr>")
         table.append("<tbody>");
         var data = $.parseJSON(x);
+
         $.each(data, function (k, v) {
             var row = $("<tr />")
             table.append(row);

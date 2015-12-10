@@ -9,19 +9,13 @@ import java.util.*;
 
 /*
 * Things to do:
-* 1) stop words
-* 2) ctrl + R problem
+* 1) ctrl + R problem
 * */
 
 /**
  * Created by tongtongbao on 12/2/15.
  */
 public class Q17 {
-    private Set<String>  stopwords;
-
-    public Q17() {
-        this.stopwords = new HashSet<>(Arrays.asList("a", "b", "c"));
-    }
 
      public String getKeywords(int startYear, int endYear) {
         String query = String.format("MATCH (n:Paper) WHERE (toInt(n.year) <= %d AND toInt (n.year) >= %d) RETURN n", endYear, startYear);
@@ -40,7 +34,7 @@ public class Q17 {
             for (String word : words) {
                 word = word.trim();
                 if(word.length() == 1) {
-                    System.out.println(word);
+                    //System.out.println(word);
                     continue;
                 }
 
@@ -75,7 +69,7 @@ public class Q17 {
                 reverseMap.put(freq, iniList);
             }
         }
-        System.out.println(reverseMap);
+        //System.out.println(reverseMap);
 
         List<topicEntry> topicEntries = new ArrayList<>();
         int count = 30;
