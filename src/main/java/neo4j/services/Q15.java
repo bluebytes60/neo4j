@@ -22,6 +22,7 @@ public class Q15 {
         for (Node node : g.getNodes()) {
 
             String title = node.getProperties().getTitle();
+            //String color = node.getProperties().;
             //String journal = node.getProperties().getJournal();
             if(!map.containsKey(title)){
                 map.put(title, 0);
