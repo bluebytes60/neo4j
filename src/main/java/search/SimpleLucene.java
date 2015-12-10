@@ -52,7 +52,7 @@ public class SimpleLucene {
         Document doc = new Document();
         doc.add(new TextField("title", val(article.title), Field.Store.YES));
         doc.add(new TextField("fullText", val(article.toString()), Field.Store.YES));
-        doc.add(new TextField("author", val(article.getAuthors().toString()), Field.Store.YES));
+        doc.add(new TextField("author", val(article.getAuthors().toString().replaceAll("\\[","").replaceAll("\\]","")), Field.Store.YES));
         w.addDocument(doc);
     }
 
