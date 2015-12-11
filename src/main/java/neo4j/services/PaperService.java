@@ -126,10 +126,10 @@ public class PaperService {
         return q14.getExpert(keyword);
     }
 
-    public Map<String, Integer> q15(int startYear, int endYear) {
+    public Map<String, Object> q15(int startYear, int endYear) {
         return q15.getKeywords(startYear, endYear);
     }
-    public Map<String, Integer> q16(int startYear, int endYear, String channal, String keyword) {
+    public Map<String, Object> q16(int startYear, int endYear, String channal, String keyword) {
         //System.out.println(channal);
         return q16.getKeywords(startYear, endYear, channal, keyword);
     }
