@@ -2,6 +2,7 @@ package neo4j.services;
 
 import neo4j.json.Graph;
 import neo4j.json.Node;
+import neo4j.json.Relationship;
 import util.MapUtil;
 import util.Rest;
 
@@ -48,7 +49,7 @@ public class Q16 {
                 resultTitles.add(title);
             }
         }
-        System.out.println(resultTitles.size());
+        //System.out.println(resultTitles.size());
         for(String title: resultTitles){
             if (title.toLowerCase().contains("tree") || title.toLowerCase().contains("data") || title.toLowerCase().contains("language") || title.toLowerCase().contains("programming")) {
                 nodes.add(MapUtil.map5("label", title, "cluster", "1", "value", 2, "group", "structure", "color", "red"));
@@ -60,7 +61,10 @@ public class Q16 {
                 nodes.add(MapUtil.map5("label", title, "cluster", "4", "value", 1, "group", "others", "color", "yellow"));
             }
         }
-        return result;
+        for (Relationship relationship : g.getRelationships()) {
+            rels.add(MapUtil.map3("from", relationship.getStartNode(), "to", relationship.getEndNode(), "title", "PUBLISH"));
+        }
+        return MapUtil.map("nodes", nodes, "edges", rels);
     }
 
 }
