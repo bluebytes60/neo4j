@@ -20,7 +20,7 @@ public class Q12 {
     SimpleLucene simpleLucene;
 
     public Q12(SimpleLucene simpleLucene) {
-       this.simpleLucene=simpleLucene;
+        this.simpleLucene = simpleLucene;
     }
 
 
@@ -69,9 +69,10 @@ public class Q12 {
 
         //second step, find shortest path between these papers
         //MATCH p = shortestPath((a1:Paper { title:"Fair sticker languages." })-[*1..15]-(a2:Paper { title:"On the Generative Power of Regular Pattern Grammars." })) RETURN p
+        Set<String> fromTo = new HashSet<>();
         for (int i = 0; i < titles.size(); i++) {
             for (int j = i + 1; j < titles.size(); j++) {
-                query = "MATCH p = shortestPath((a1:Paper { title:\\\"%s\\\" })-[*1..5]-(a2:Paper { title:\\\"%s\\\" })) RETURN p";
+                query = "MATCH p = shortestPath((a1:Paper { title:\\\"%s\\\" })-[:PUBLISH*]-(a2:Paper { title:\\\"%s\\\" })) RETURN p";
                 System.out.println(String.format(query, titles.get(i), titles.get(j)));
                 Graph g = Rest.query(String.format(query, titles.get(i), titles.get(j)));
                 for (Node node : g.getNodes()) {
@@ -89,7 +90,10 @@ public class Q12 {
                 }
 
                 for (Relationship relationship : g.getRelationships()) {
-                    rels.add(MapUtil.map3("from", relationship.getStartNode(), "to", relationship.getEndNode(), "title", "PUBLISH"));
+                    if (!fromTo.contains(relationship.getStartNode() + "_" + relationship.getEndNode())) {
+                        rels.add(MapUtil.map3("from", relationship.getStartNode(), "to", relationship.getEndNode(), "title", "PUBLISH"));
+                        fromTo.add(relationship.getStartNode() + "_" + relationship.getEndNode());
+                    }
                 }
             }
         }
