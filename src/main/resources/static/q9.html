@@ -120,43 +120,13 @@
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    console.log(JSON.stringify(data));
+
 
                     var jsonData = JSON.parse(JSON.stringify(data));
-<<<<<<< HEAD
-//                    for(var i = 0; i < jsonData.length; i++) {
-//                        var message = '';
-//                        var entry = jsonData[i];
-//                        message += "Volume " + entry.vol + ":\n";
-//
-//                        for(var name in entry.names) {
-//                            message += entry.names[name] + ", ";
-//                        }
-//                        message += "\n\n";
-//
-//                        var li = document.createElement("li");
-//                        var textnode = document.createTextNode(message);
-//                        li.appendChild(textnode);
-//                        document.getElementById("result").appendChild(li);
-//                    }
-=======
-                    for(var i = 0; i < jsonData.length; i++) {
-                        var message = '';
-                        var entry = jsonData[i];
-                        message += "Volume " + entry.vol + ":\n";
 
-                        for(var name in entry.names) {
-                            message += entry.names[name] + ", ";
-                        }
-                        message += "\n\n";
+                    console.log(jsonData[0]);
 
-                        var li = document.createElement("li");
-                        var textnode = document.createTextNode(message);
-                        li.appendChild(textnode);
-                        document.getElementById("result").appendChild(li);
-                    }
-                    drawGraph();
->>>>>>> 2e639dbaef66fb8ac9112774de5475be0e3aa628
+                    drawGraph(jsonData[0]);
                 }
             });
         });
@@ -172,7 +142,7 @@
         return limit;
     }
 
-    function drawGraph(){
+    function drawGraph(data){
         var margin = {top: 20, right: 120, bottom: 20, left: 120},
                 width = 960 - margin.right - margin.left,
                 height = 800 - margin.top - margin.bottom;
@@ -191,26 +161,24 @@
                 .attr("width", width + margin.right + margin.left)
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
-        d3.json("flare.json", function(error, flare) {
-            if (error) throw error;
 
-            root = flare;
-            root.x0 = height / 2;
-            root.y0 = 0;
+        root = data;
+        root.x0 = height / 2;
+        root.y0 = 0;
 
-            function collapse(d) {
-                if (d.children) {
-                    d._children = d.children;
-                    d._children.forEach(collapse);
-                    d.children = null;
-                }
+        function collapse(d) {
+            if (d.children) {
+                d._children = d.children;
+                d._children.forEach(collapse);
+                d.children = null;
             }
+        }
 
-            root.children.forEach(collapse);
-            update(root);
-        });
+        root.children.forEach(collapse);
+        update(root);
+
         d3.select(self.frameElement).style("height", "800px");
         function update(source) {
 

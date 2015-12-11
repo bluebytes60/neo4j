@@ -36,7 +36,7 @@ public class Q9 {
                     }
                 }
             }
-            String volume = "volume: " + vol;
+            String volume = "volume " + vol;
             childrenVol.add(MapUtil.map("name", volume, "children", childrenArticle));
         }
         jsonData.add(MapUtil.map("name", journal, "children", childrenVol));
