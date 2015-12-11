@@ -76,7 +76,7 @@
             <br>
             <div class="input-group input-group-lg">
                 <span class="input-group-addon">Keyword</span>
-                <input type="text" class="form-control" id="keyword" placeholder="ex: program"
+                <input type="text" class="form-control" id="keyword" placeholder="ex: an"
                        aria-describedby="sizing-addon1">
             </div>
             <br>
@@ -88,6 +88,20 @@
 
             </table>
             <br>
+        </div>
+    </div>
+    <div class="col-lg-8 col-lg-offset-2 text-center">
+        <p>
+            Collaboration network
+        </p>
+        <div class="col-md-2 col-md-offset-1" id="mynetwork"></div>
+        <div class="col-md-2 col-md-offset-1" id="graphText">
+            <div class="row">
+                <div class="col-lg-6" id="testGraph">
+                </div>
+                <div class="col-lg-6" id="testText">
+                </div>
+            </div>
         </div>
     </div>
 
@@ -110,8 +124,8 @@
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    //draw(JSON.stringify(data));
-                    appendRankedPaperData(JSON.stringify(data))
+                    draw(JSON.stringify(data));
+                    //appendRankedPaperData(JSON.stringify(data))
                 }
             });
 
@@ -122,8 +136,8 @@
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    //draw(JSON.stringify(data));
-                    appendRankedPaperData(JSON.stringify(data))
+                    draw(JSON.stringify(data));
+                    //appendRankedPaperData(JSON.stringify(data))
                 }
             });
 
@@ -148,8 +162,8 @@
         var Channel = $('#channel').val();
         return Channel;
     }
-    function draw(data) {
 
+    function draw(data) {
         var data = JSON.parse(data);
         var container = document.getElementById('mynetwork');
         var options = {
@@ -183,21 +197,20 @@
             var select_node = $.grep(data.nodes, function (e) {
                 return e["id"] == properties.nodes[0];
             })[0];
-            if (select_node["group"] == "service") {
-                var select_edges = $.grep(data.edges, function (e) {
-                    return e["from"] == select_node["id"]
-                });
-                var textVal = "";
-                textVal += "<h3>" + select_node["label"] + "</h3>";
-                textVal += "<div><h4>Keywords:</h4><h4>"
-                for (var i = select_edges.length - 1; i >= 0; i--) {
-                    textVal += "<span class=\"label label-primary\">" + select_edges[i]["to"] + "</span>\n";
-                }
-                ;
-                textVal += "</h4></div>";
-                textVal += "<div><img src=\"" + select_node["image"] + "\" class=\"img-responsive\"></div>";
-                $("#testText").html(textVal);
+            var select_edges = $.grep(data.edges, function (e) {
+                return e["from"] == select_node["id"]
+            });
+            var textVal = "";
+            textVal += "<h3>" + select_node["label"] + "</h3>";
+            textVal += "<div><h4>Keywords:</h4><h4>"
+            for (var i = select_edges.length - 1; i >= 0; i--) {
+                textVal += "<span class=\"label label-primary\">" + select_edges[i]["to"] + "</span>\n";
             }
+            ;
+            textVal += "</h4></div>";
+            textVal += "<div><img src=\"" + select_node["image"] + "\" class=\"img-responsive\"></div>";
+            $("#testText").html(textVal);
+
         });
     }
 
