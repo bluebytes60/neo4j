@@ -150,6 +150,11 @@ public class KnowledgeGraph extends WebMvcConfigurerAdapter {
         return paperService.q22(name1, name2);
     }
 
+    @RequestMapping(value = "/q24/{keyword}/{limit}", method = RequestMethod.GET)
+    public Map<String, Object> q24(@PathVariable String keyword, @PathVariable Integer limit) {
+        return paperService.q24(keyword, limit == null ? 10 : limit);
+    }
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/home").setViewName("home");

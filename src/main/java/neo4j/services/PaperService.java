@@ -32,6 +32,7 @@ public class PaperService {
     Q22 q22;
     Q17 q17;
     Q20 q20;
+    Q24 q24;
 
     SimpleLucene simpleLucene;
 
@@ -55,6 +56,7 @@ public class PaperService {
         q22 = new Q22();
         q17 = new Q17();
         q20 = new Q20();
+        q24 = new Q24();
     }
 
     public Map<String, Object> graphAlc(int limit) {
@@ -96,6 +98,7 @@ public class PaperService {
     public Map<String, Object> q5(String name) {
         return q5.parse(name);
     }
+
     public Map<String, Object> q6(String name, int hop) {
         return q6.parse(name, hop);
     }
@@ -108,7 +111,9 @@ public class PaperService {
         return q7.parse(keyword, K);
     }
 
-    public List<Map<String, Object>> q9(String journal, int limit) { return q9.getTreeData(journal, limit, paperRepository);}
+    public List<Map<String, Object>> q9(String journal, int limit) {
+        return q9.getTreeData(journal, limit, paperRepository);
+    }
 
     public List<String> q12Part1(String keyword, int K) {
         return q12.topK(keyword, K);
@@ -129,6 +134,7 @@ public class PaperService {
     public Map<String, Object> q15(int startYear, int endYear) {
         return q15.getKeywords(startYear, endYear);
     }
+
     public Map<String, Object> q16(int startYear, int endYear, String channal, String keyword) {
         //System.out.println(channal);
         return q16.getKeywords(startYear, endYear, channal, keyword);
@@ -146,6 +152,9 @@ public class PaperService {
         return q22.parse(name1, name2);
     }
 
+    public Map<String, Object> q24(String keyword, int limit) {
+        return q24.parse(keyword, limit);
+    }
 
 }
 
