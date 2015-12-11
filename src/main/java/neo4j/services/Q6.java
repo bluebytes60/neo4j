@@ -3,6 +3,7 @@ package neo4j.services;
 import neo4j.json.Graph;
 import neo4j.json.Node;
 import neo4j.json.Relationship;
+import util.LRUCache;
 import util.MapUtil;
 import util.Rest;
 
@@ -14,10 +15,15 @@ import java.util.Map;
  * Created by tongtongbao on 12/7/15.
  */
 public class Q6 {
-    public Map<String, Object> parse(String centralAuthor, int hop){
+    LRUCache<String, Map<String, Object>> cache = new LRUCache(100);
+
+    public Map<String, Object> parse(String centralAuthor, int hop) {
+        if (cache.containsKey(centralAuthor + "_" + hop)) return cache.get(centralAuthor + "_" + hop);
         String query = String.format("MATCH p = (bacon:Author {name:\\\"%s\\\"})-[*1..%d]-(another:Author) RETURN p", centralAuthor, hop);
         System.out.println(query);
-        return toMap(centralAuthor, query);
+        Map<String, Object> map = toMap(centralAuthor, query);
+        cache.put(centralAuthor + "_" + hop, map);
+        return map;
     }
 
     private java.util.Map<String, Object> toMap(String centralAuthor, String query) {

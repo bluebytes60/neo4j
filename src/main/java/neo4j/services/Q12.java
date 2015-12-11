@@ -5,6 +5,7 @@ import neo4j.json.Node;
 import neo4j.json.Relationship;
 import org.apache.lucene.queryparser.classic.ParseException;
 import search.SimpleLucene;
+import util.LRUCache;
 import util.MapUtil;
 import util.Rest;
 
@@ -18,6 +19,7 @@ public class Q12 {
     //MATCH (a:Author)-[Publish]-(p:Paper {title: "Describing Semantic Domains with Sprouts."}) RETURN *
 
     SimpleLucene simpleLucene;
+    LRUCache<String, Map<String, Object>> cache = new LRUCache<>(100);
 
     public Q12(SimpleLucene simpleLucene) {
         this.simpleLucene = simpleLucene;
@@ -38,6 +40,7 @@ public class Q12 {
     }
 
     public Map<String, Object> parse(String keyword, int K) {
+        if (cache.containsKey(keyword + "_" + K)) return cache.get(keyword + "_" + K);
         String query = "MATCH (a:Author)-[Publish]-(p:Paper {title: \\\"%s\\\"}) RETURN *";
         List<String> titles = topK(keyword, K);
         List<Map<String, Object>> nodes = new ArrayList<>();
@@ -97,7 +100,9 @@ public class Q12 {
                 }
             }
         }
-        return MapUtil.map("nodes", nodes, "edges", rels);
+        Map<String, Object> map = MapUtil.map("nodes", nodes, "edges", rels);
+        cache.put(keyword + "_" + K, map);
+        return map;
     }
 
 

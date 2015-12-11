@@ -6,6 +6,7 @@ package neo4j.services;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import search.SimpleLucene;
+import util.LRUCache;
 
 import java.io.IOException;
 import java.util.*;
@@ -13,12 +14,14 @@ import java.util.*;
 public class Q13 {
 
     SimpleLucene simpleLucene;
+    LRUCache<String, Map<Integer, String>> cache = new LRUCache(100);
 
     public Q13(SimpleLucene simpleLucene) {
-        this.simpleLucene=simpleLucene;
+        this.simpleLucene = simpleLucene;
     }
 
     public Map<Integer, String> getCollaborators(String keyword) {
+        if (cache.containsKey(keyword)) return cache.get(keyword);
         Map<String, Integer> map = new HashMap<>();
         TreeMap<Integer, List<String>> reversedMap = new TreeMap<>();
         Map<Integer, String> collabMap = new TreeMap<>();
@@ -53,15 +56,15 @@ public class Q13 {
 
         int count = 9;
         for (Map.Entry<Integer, List<String>> entry : newMap.entrySet()) {
-            if(count < 0) break;
+            if (count < 0) break;
             List<String> authors = entry.getValue();
             for (String str : authors) {
-                if(count < 0) break;
+                if (count < 0) break;
                 collabMap.put(10 - count, str);
                 count--;
             }
         }
-
+        cache.put(keyword, collabMap);
         return collabMap;
     }
 

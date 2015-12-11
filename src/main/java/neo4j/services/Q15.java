@@ -14,6 +14,7 @@ import java.util.*;
  * Created by chenrangong on 12/9/15.
  */
 public class Q15 {
+
     public Map<String, Object> getKeywords(int startYear, int endYear) {
         String query = String.format("MATCH (n:Paper) WHERE (toInt(n.year) <= %d AND toInt (n.year) >= %d) RETURN n", endYear, startYear);
         //Map<String> set = new HashSet<>();

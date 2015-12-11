@@ -3,6 +3,7 @@ package neo4j.services;
 import neo4j.json.Graph;
 import neo4j.json.Node;
 import neo4j.json.Relationship;
+import util.LRUCache;
 import util.MapUtil;
 import util.Rest;
 
@@ -12,9 +13,13 @@ import java.util.*;
  * Created by bluebyte60 on 12/1/15.
  */
 public class Q24 {
-    //
+    LRUCache<String, Map<String, Object>> cache = new LRUCache<>(100);
+
     public Map<String, Object> parse(String keyword, int networkSize) {
-        return getGraph(keyword, networkSize, new HashSet<String>());
+        if (cache.containsKey(keyword + " " + networkSize)) return cache.get(keyword + " " + networkSize);
+        Map<String, Object> graph = getGraph(keyword, networkSize, new HashSet<String>());
+        cache.put(keyword + " " + networkSize, graph);
+        return graph;
     }
 
     private Map<String, Object> getGraph(String keyword, int limit, Set<String> ids) {

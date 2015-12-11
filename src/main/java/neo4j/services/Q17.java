@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import neo4j.domain.topicEntry;
 import neo4j.json.Graph;
 import neo4j.json.Node;
+import util.LRUCache;
 import util.Rest;
 
 import java.util.*;
@@ -17,8 +18,10 @@ import java.util.*;
  * Created by tongtongbao on 12/2/15.
  */
 public class Q17 {
+    LRUCache<String, String> cache = new LRUCache<>(100);
 
     public String getKeywords(int startYear, int endYear) {
+        if (cache.containsKey(startYear + "_" + endYear)) return cache.get(startYear + "_" + endYear);
         String query = String.format("MATCH (n:Paper) WHERE (toInt(n.year) <= %d AND toInt (n.year) >= %d) RETURN n", endYear, startYear);
 
         // words list and return list
@@ -32,7 +35,7 @@ public class Q17 {
             String[] words = title.split(" ");
             for (String word : words) {
                 // remove possible punctuations
-                word=word.replaceAll(",", "").replaceAll("\\.", "").replaceAll("\\?", "").replaceAll("\\!", "").replaceAll(":", "");
+                word = word.replaceAll(",", "").replaceAll("\\.", "").replaceAll("\\?", "").replaceAll("\\!", "").replaceAll(":", "");
                 word = word.trim();
                 if (word.length() == 1) {
                     continue;
@@ -126,6 +129,7 @@ public class Q17 {
 
         Gson gson = new Gson();
         wordsAndWeight = gson.toJson(topicEntries);
+        cache.put(startYear + "_" + endYear, wordsAndWeight);
         return wordsAndWeight;
     }
 }
