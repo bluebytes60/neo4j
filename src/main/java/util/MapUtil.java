@@ -21,6 +21,12 @@ public class MapUtil {
         return result;
     }
 
+    public static  java.util.Map<String, Object> map1(String key1, Object value1) {
+        java.util.Map<String, Object> result = new HashMap<String, Object>(1);
+        result.put(key1, value1);
+        return result;
+    }
+
     public static java.util.Map<String, Object> map3(String key1, Object value1, String key2, Object value2,
                                                String key3, Object value3) {
         java.util.Map<String, Object> result = new HashMap<String, Object>(3);

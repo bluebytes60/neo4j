@@ -100,21 +100,21 @@
                     console.log(JSON.stringify(data));
 
                     var jsonData = JSON.parse(JSON.stringify(data));
-                    for(var i = 0; i < jsonData.length; i++) {
-                        var message = '';
-                        var entry = jsonData[i];
-                        message += "Volume " + entry.vol + ":\n";
-
-                        for(var name in entry.names) {
-                            message += entry.names[name] + ", ";
-                        }
-                        message += "\n\n";
-
-                        var li = document.createElement("li");
-                        var textnode = document.createTextNode(message);
-                        li.appendChild(textnode);
-                        document.getElementById("result").appendChild(li);
-                    }
+//                    for(var i = 0; i < jsonData.length; i++) {
+//                        var message = '';
+//                        var entry = jsonData[i];
+//                        message += "Volume " + entry.vol + ":\n";
+//
+//                        for(var name in entry.names) {
+//                            message += entry.names[name] + ", ";
+//                        }
+//                        message += "\n\n";
+//
+//                        var li = document.createElement("li");
+//                        var textnode = document.createTextNode(message);
+//                        li.appendChild(textnode);
+//                        document.getElementById("result").appendChild(li);
+//                    }
                 }
             });
         });
