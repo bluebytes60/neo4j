@@ -1,14 +1,18 @@
 <!DOCTYPE html >
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-        <meta charset="UTF-8"/>
-        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
-        <title>index</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+    <title>index</title>
 </head>
 <body>
 <div style="background-color: black; height: 50px; margin-top: -10px"></div>
-<div style="background-color: #0088cc; height: 150px; margin-top: -10px; padding-top: 40px; text-align: center; font-size: 44px; color: white">18656 Team2 Neo4j Search</div>
+<div style="background-color: #0088cc; height: 150px; margin-top: -10px; padding-top: 40px; text-align: center; font-size: 44px; color: white">
+    18656 Team2 Neo4j Search
+</div>
 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
@@ -24,13 +28,14 @@
         <li><a href="/q13.html">q13: Search for possible collabortors</a></li>
         <li><a href="/q14.html">q14: Search for researchers who are experts in the field</a></li>
         <li><a href="/q15.html">q15: Categorize the research papers (given time period)</a></li>
-        <li><a href="/q15.html">q16: Categorize the research papers (given time period, publication channels, keywords)</a></li>
-        <li>q21: </li>
+        <li><a href="/q15.html">q16: Categorize the research papers (given time period, publication channels,
+            keywords)</a></li>
         <li><a href="/q17.html">q17: Generate focused topics evolution graph</a></li>
-        <li><a href="/index.html">q21: Generate paper to paper network</a></li>
+        <li><a href="/q21.html">q21: Generate paper to paper network</a></li>
         <li><a href="/q20.html">q20: Generate Peron to Person network</a></li>
         <li><a href="/q22.html">q22: A Path that will lead you to connect to the researcher</a></li>
-        <li><a href="/q24.html">q22: Find Network that link keywords</a></li>
+        <li><a href="/q24.html">q24: Find Network that link keywords</a></li>
+        <li>q27: Provide a log in facility</li>
     </ui>
 </div>
 </body>
