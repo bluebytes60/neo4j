@@ -21,7 +21,7 @@ import java.util.Set;
  * Created by bluebyte60 on 11/24/15.
  */
 public class Rest {
-    //"http://localhost:7474", "bmVvNGo6MTg2NTY="
+    //"http://localhost:7474", "bmVvNGo6MTg2NTY="(actually 18656 in neo4j), will able to retrieve in the code section of the ui console
     final static String password = "bmVvNGo6MTg2NTY";
     final static String url= "http://localhost:7474";
 

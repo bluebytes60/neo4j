@@ -1,0 +1,33 @@
+1 How to store all publication information in Neo4j, including paper, author, affiliation, topics, etc.
+2 Develop a user-friendly web portal to support the data analytics.
+3 How to ensure scalability performance? (Hint: cache user query, create microservices)
+4 How to ensure performance? (Hint: periodic statistics for example)
+5 Given the name of a researcher, generate a graph* showing the direct collaboration network of the author (her all co-authors).
+6 Given the name of a researcher, generate a graph* showing a multi-depth collaboration network of the author (her co-authors and their co-authors).
+7 Given some keywords,s generate a graph of top k related papers together with their authors.
+8 Given a timeline of years for a set of authors, generate a graph showing their publications per year.
+9 Given a journal name, generate a graph showcasing authors contributing to each of its volume, taking volume as the base axis.
+10 Given some geographical area (e.g., country) and some keywords, generate a graph on Google map the publications on the topic, whose authors come from the geographical area (at least one or more authors).
+11 Given a publication channel name (journal or conference) and a time frame, showcase in Google map the publications distribution
+12 (Counted as 2 requirements) Given some keywords, return a collection of papers that the reader may be interested in reading (sorted by relevance).
+Show a graph of their relationships (e.g., citation)
+13 Given some keywords, search for researchers that may like to be your collaborators.
+14 Given some keywords, search for researchers who are experts in the field.
+15 Categorize the research papers (given time period).
+16 Categorize the research papers (given time period, publication channels, keywords).
+17 Show the evolution of focused topics of a journal, in a given time frame.
+18 For each major publication channel (e.g., a journal or a conference at a year), list the top cited papers.
+19 Generate a Paper-Paper network, showing their citation relationships.
+20 Generate a Person-Person network, showing their collaboration relationships
+21 Generate a Paper-Person network, showing their authoring relationships.
+22 Given a researcher name, find out a path that will lead you to connect to the researcher (prove the small-world theory).
+23 Given a research topic, form a possible research team, taking into consideration of their expertise in the field, their past collaboration relationships, and their possibility of willingness to join the team.
+24 Given some keywords, find out a network that can link them together.
+25 In a publication network, click on an author, show a knowledge card summarizing her past publication status.
+26 In a publication network, click on a paper, show a knowledge card summarizing its publication information and citation data.
+27 When people do a search, give information about “People viewing this item also visit…”
+28 Provide a log in facility.
+29 Provide a personalized interface for a user when logging in, e.g., hello xxx, you have recently visited…
+30 Allow people to follow a researcher - when the researcher has new publication, notify the person.
+31 Allow to view statistics and detailed info of her own followers.
+32 Allow to view statistics info of a person’s followers.

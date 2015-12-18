@@ -1,0 +1,4 @@
+1. Download the neo4j from http://neo4j.com/download/
+2. Install mvn by using brew install: http://neo4j.com/download/
+3. cd into neo4j run: run mvn spring-boot:run -Drun.jvmArguments="-Dusername=neo4j -Dpassword=18656"
+4. Go to http://127.0.0.1:8080/, username/password: user/password
