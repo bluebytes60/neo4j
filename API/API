@@ -1,0 +1,7 @@
+Please refer the knowledgeGraph.java, there are API paths with mapping services. The api is use to solve the problem solved in question list.
+For example, the 22th question in  question list has a corresponding api in knowledgeGraph.java as follow:
+@RequestMapping(value = "/q22/{name1}/{name2}", method = RequestMethod.GET)
+    public Map<String, Object> q22(@PathVariable String name1, @PathVariable String name2) {
+        return paperService.q22(name1, name2);
+    }
+This fraction of code is used to solve that problem.
